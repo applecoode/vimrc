@@ -292,7 +292,7 @@ inoremap <M-o> <esc>:pclose<cr>a
 "绑定关闭preview窗口快捷键
 nnoremap <M-y> :let g:ycm_auto_trigger=0<cr>
 nnoremap <M-Y>  :let g:ycm_auto_trigger=1<cr>
-"切换补ycm全时是否出现preview窗口
+"切换是否开启ycm补全
 nnoremap <M-s> :call Switchpreview()<cr>
 func! Switchpreview()
   if g:ycm_add_preview_to_completeopt==1
@@ -303,7 +303,8 @@ func! Switchpreview()
     let g:ycm_add_preview_to_completeopt=1
   endif
 endfunction
-"Asnycrun显示中文
+"切换补ycm全时是否出现preview窗口
 let g:asyncrun_encs='gbk'
-"切换中文输入法补丁（目前不能用）
+"Asnycrun显示中文
 " let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
+"切换中文输入法补丁（目前不能用）
