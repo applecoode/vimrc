@@ -212,7 +212,7 @@ noremap! <c-a> <home>
 nnoremap <leader>y :!ici <C-R><C-W><CR>
 "noremap! <caps lock> <esc>
 "绑定搜索vimwiki diary的主题
-nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/ ~/vimwiki/diary/*.wiki <cr>
+nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 
 
 
