@@ -307,9 +307,11 @@ func! Switchpreview()
   if g:ycm_add_preview_to_completeopt==1
     set completeopt=menu,menuone
     let g:ycm_add_preview_to_completeopt=0 
+    echo 'add preview to 0'
   else
     set completeopt=preview,menuone
     let g:ycm_add_preview_to_completeopt=1
+    echo 'add preview to 1'
   endif
 endfunction
 "切换补ycm全时是否出现preview窗口
