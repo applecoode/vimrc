@@ -166,7 +166,7 @@ Plugin 'vim-airline/vim-airline' "底部美化
 Plugin 'vim-airline/vim-airline-themes' "美化主题
 Plugin 'mattn/emmet-vim' " html补全插件 c-y,
 Plugin 'tpope/vim-surround' " 两边补符号插件 ds cs ys
-Plugin 'aaaaa/testplug' " 测试脚本用
+" Plugin 'lyokha/vim-xkbswitch' " 自动在normal模式下切换输入法插件
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
@@ -211,6 +211,8 @@ noremap! <c-a> <home>
 "翻译,前面需要pip install ici
 nnoremap <leader>y :!ici <C-R><C-W><CR>
 "noremap! <caps lock> <esc>
+"绑定搜索vimwiki diary的主题
+nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/ ~/vimwiki/diary/*.wiki <cr>
 
 
 
@@ -315,6 +317,8 @@ let g:asyncrun_encs='gbk'
 "Asnycrun显示中文
 nnoremap <leader>c "*yiw
 "为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
+"切换中文输入法补丁（目前不能用）
+" let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
 "==========================
 "自己写的插件(仅限公安网)
 "==========================
