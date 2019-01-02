@@ -212,7 +212,7 @@ noremap! <c-a> <home>
 nnoremap <leader>y :!ici <C-R><C-W><CR>
 "noremap! <caps lock> <esc>
 "绑定搜索vimwiki diary的主题
-nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/ ~/vimwiki/diary/*.wiki <cr>
+nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 
 
 
@@ -255,8 +255,8 @@ let g:ycm_global_ycm_extra_conf="~\\vimfiles\\bundle\\YouCompleteMe\\.ycm_extra_
 "==========================
 "let g:vimwiki_list = [{'path': '~/my_diary/', 'path_html': '~/my_diary_html/'},
 "                     \{'path': '~/my_wiki/', 'path_html': '~/my_wiki_html/'}]
-
-"map <Leader>tt <Plug>VimwikiToggleListItem
+:map <Leader>tt <Plug>VimwikiToggleListItem
+"任务模式快捷键
 
 
 
@@ -284,8 +284,17 @@ highlight PMenuSel ctermfg=242 ctermbg=8 guifg=darkgrey guibg=black
 "==========================
 "自己定义的配置
 "==========================
-nnoremap <M-c> :cclose<cr>
-inoremap <M-c> <esc>:cclose<cr>a
+let asyncrun_encs = 'gbk'
+"防止Asyncrun出现乱码
+nnoremap <silent><M-c> :call TaggleQuickWin()<cr>
+inoremap <silent><M-c> <esc>:call TaggleQuickWin()<cr>
+func! TaggleQuickWin()
+        if getqflist({'winid':1}).winid
+                exec "cclose"
+        else
+                exec "copen"
+        endif
+endfunction
 "绑定关闭quickfix窗口快捷键
 nnoremap <M-o> :pclose<cr>
 inoremap <M-o> <esc>:pclose<cr>a
@@ -298,13 +307,24 @@ func! Switchpreview()
   if g:ycm_add_preview_to_completeopt==1
     set completeopt=menu,menuone
     let g:ycm_add_preview_to_completeopt=0 
+    echo 'add preview to 0'
   else
     set completeopt=preview,menuone
     let g:ycm_add_preview_to_completeopt=1
+    echo 'add preview to 1'
   endif
 endfunction
 "切换补ycm全时是否出现preview窗口
 let g:asyncrun_encs='gbk'
 "Asnycrun显示中文
-" let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
+nnoremap <leader>c "*yiw
+"为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
 "切换中文输入法补丁（目前不能用）
+" let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
+"==========================
+"自己写的插件(仅限公安网)
+"==========================
+nnoremap <silent><M-9> :py3file ~\vimfiles\myscript\spider.py<cr>
+"获取省厅治安总队和市局主页的通知并输出到当前buffer
+nnoremap <silent><M-8> :py3file ~\vimfiles\myscript\sql_anytime.py<cr>
+"自动查询sql语句
