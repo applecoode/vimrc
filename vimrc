@@ -302,7 +302,7 @@ inoremap <M-o> <esc>:pclose<cr>a
 "绑定关闭preview窗口快捷键
 nnoremap <M-y> :let g:ycm_auto_trigger=0<cr>
 nnoremap <M-Y>  :let g:ycm_auto_trigger=1<cr>
-"切换是否补全
+"切换是否开启ycm补全
 nnoremap <M-s> :call Switchpreview()<cr>
 func! Switchpreview()
   if g:ycm_add_preview_to_completeopt==1
