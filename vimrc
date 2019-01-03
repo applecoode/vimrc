@@ -272,6 +272,7 @@ let g:ycm_semantic_triggers={
 highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
 highlight PMenuSel ctermfg=242 ctermbg=8 guifg=darkgrey guibg=black
 "设置补全弹出框的颜色
+nnoremap <leader>jd :YcmCompleter GoTo<CR>
 "set completeopt=menu,menuone
 "let g:ycm_add_preview_to_completeopt=0
 "取消补全中显示函数详细信息的补全设置
