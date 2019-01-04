@@ -1,6 +1,6 @@
 import vim
 import sys
-sys.path.append('dmyproject\work')
+sys.path.append('.')
 import oracledb
 from pandas.io import sql
 db = oracledb.Db()
