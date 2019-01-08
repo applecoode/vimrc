@@ -116,6 +116,7 @@ set guicursor+=a:blinkon0 "设置光标不闪烁
 "==========================
 nnoremap <F9> :call RunPython()<cr>
 nnoremap <F8> :call CompileRunGcc()<cr>
+:noremap <F7> :AsyncRun gcc "%" -o "%<"<cr> 
 
 func! CompileRunGcc()
           exec "w"
@@ -131,6 +132,11 @@ func! CompileRunGcc()
                           exec "copen"
                           exec "wincmd p"
                   endif
+          endif
+          if &filetype == 'c'
+                  exec "AsyncRun %<"
+                  exec "copen"
+                  exec "wincmd p"
           endif
 
 endfunc
@@ -266,7 +272,7 @@ let g:ycm_global_ycm_extra_conf="~\\vimfiles\\bundle\\YouCompleteMe\\.ycm_extra_
 "let g:ycm_key_invoke_completion='<c-z>' 
 "设置基于语义补全的快捷键
 let g:ycm_semantic_triggers={
-                      \ 'python,javascript,cs':['re!\w{2}'],
+                      \ 'python,javascript,cs,c':['re!\w{2}'],
                       \ }
 "设置激活自动补全的符号，这里设置输入前两个字符就自动弹出
 highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
