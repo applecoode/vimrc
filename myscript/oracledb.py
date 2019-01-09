@@ -230,7 +230,8 @@ class Db():
             f.write(xp)
 
 if __name__=='__main__':
-    #tmp = Db()
+    tmp = Db()
+    tmp.test()
     #print(tmp.gen_sql('dzrkxt.zh_dictvlaue','dictname',dictname='aaa',dictcode='321'))
     #tmp.sfzh_text2excel_sfzxx('txt/建行20181031.txt','xls/建行.xlsx')
     #tmp.sfzh_text2excel('test.txt','test_pd.xlsx',field_str="xm as 姓名,gmsfhm as 身份证号,xb as 性别")
