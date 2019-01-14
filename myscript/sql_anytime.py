@@ -15,4 +15,4 @@ conn.close()
 result_columns = ['|'.join(['{0:20}'.format(i) for i in columns.columns])]
 vim.current.buffer.append(result_columns)
 vim.current.buffer.append(result_vim)
-
+#mergetool test 2
