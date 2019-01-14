@@ -16,13 +16,13 @@ class Db():
     """
     try:
         cf = configparser.ConfigParser()
-        cf.read('office_config.ini')
+        cf.read(r'c:\Users\Administrator\vimfiles\myscript\office_config.ini')
         user_ini = cf.get('db','user')
         password_ini = cf.get('db','password')
         ip_ini = cf.get('db','ip')
         sid_ini = cf.get('db','sid')
     except:
-        print('连接数据库失败')
+        print('数据库连接失败')
         
 
     def __init__(self,user=user_ini,password=password_ini,ip=ip_ini,sid=sid_ini):
