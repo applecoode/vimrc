@@ -3,10 +3,8 @@ import sys
 sys.path.append(r'c:\Users\Administrator\vimfiles\myscript')
 import oracledb
 from pandas.io import sql
-import time
 db = oracledb.Db()
 conn = db.db.connect()
-start = time.clock()
 result = db.query(vim.eval('@"'))
 result_vim = [','.join(['{0}'.format(j) for j in i]) for i in result]
 conn = db.db.connect()

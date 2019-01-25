@@ -1,7 +1,9 @@
 source $VIMRUNTIME/vimrc_example.vim
-behave mswin
-noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
-noremap <f12> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleTransparency', "247,180")<cr>
+if has('win32') && has('win64')
+        behave mswin
+        noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
+        noremap <f12> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleTransparency', "247,180")<cr>
+endif
 "全屏和透明窗体,需要gvim_fullscreen.dll支持
 
 set guioptions=
@@ -216,6 +218,7 @@ nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 
 
 
+
 "==========================
 "REPL插件设定 
 "==========================
@@ -323,6 +326,7 @@ nnoremap <leader>c "*yiw
 "为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
 "切换中文输入法补丁（目前不能用）
 " let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
+
 "==========================
 "自己写的插件(仅限公安网)
 "==========================
@@ -330,3 +334,16 @@ nnoremap <silent><M-9> :py3file ~\vimfiles\myscript\spider.py<cr>
 "获取省厅治安总队和市局主页的通知并输出到当前buffer
 nnoremap <silent><M-8> :py3file ~\vimfiles\myscript\sql_anytime.py<cr>
 "自动查询sql语句
+
+
+"==========================
+"all ab and iab
+"==========================
+iab xdate <esc>50i-<esc>o<c-r>=strftime("%Y年-%m月-%d日%H:%M:%S")<cr><cr><esc>50i-<esc>o
+"插入时间 iab为插入模式下缩写
+ab vimrc :e ~\vimfiles\vimrc
+"直接打开vimrc文件
+iab ifname if __name__=='__main__':<cr>
+" 你懂的
+ab ner NERDTree
+" 让打开目录快一些
