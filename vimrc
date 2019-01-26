@@ -134,9 +134,11 @@ func! CompileRunGcc()
                   endif
           endif
           if &filetype == 'c'
-                  exec "AsyncRun %<"
+                  exec "AsyncRun gcc % -o %<"
                   exec "copen"
                   exec "wincmd p"
+                  exec "sleep"
+                  exec "AsyncRun %<"
           endif
 
 endfunc
@@ -145,6 +147,10 @@ func! RunPython()
         exec "w"
         if &filetype == 'python'
                 exec "!python %"
+        elseif &filetype == 'c'
+                exec "!gcc % -o %<"
+                exec "sleep"
+                exec "!%<"
         endif
 endfunc
 
@@ -334,3 +340,9 @@ nnoremap <silent><M-9> :py3file ~\vimfiles\myscript\spider.py<cr>
 "获取省厅治安总队和市局主页的通知并输出到当前buffer
 nnoremap <silent><M-8> :py3file ~\vimfiles\myscript\sql_anytime.py<cr>
 "自动查询sql语句
+
+"==========================
+"abbreviation
+"==========================
+ab vimrc e ~\vimfiles\vimrc
+ab ner NERDTree
