@@ -16,13 +16,13 @@ class Db():
     """
     try:
         cf = configparser.ConfigParser()
-        cf.read('office_config.ini')
+        cf.read(r'c:\Users\Administrator\vimfiles\myscript\office_config.ini')
         user_ini = cf.get('db','user')
         password_ini = cf.get('db','password')
         ip_ini = cf.get('db','ip')
         sid_ini = cf.get('db','sid')
     except:
-        print('连接数据库失败')
+        print('数据库连接失败')
         
 
     def __init__(self,user=user_ini,password=password_ini,ip=ip_ini,sid=sid_ini):
@@ -230,7 +230,8 @@ class Db():
             f.write(xp)
 
 if __name__=='__main__':
-    #tmp = Db()
+    tmp = Db()
+    tmp.test()
     #print(tmp.gen_sql('dzrkxt.zh_dictvlaue','dictname',dictname='aaa',dictcode='321'))
     #tmp.sfzh_text2excel_sfzxx('txt/建行20181031.txt','xls/建行.xlsx')
     #tmp.sfzh_text2excel('test.txt','test_pd.xlsx',field_str="xm as 姓名,gmsfhm as 身份证号,xb as 性别")
