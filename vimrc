@@ -339,7 +339,7 @@ nnoremap <silent><M-8> :py3file ~\vimfiles\myscript\sql_anytime.py<cr>
 "==========================
 "all ab and iab
 "==========================
-iab xdate <esc>50i-<esc>o<c-r>=strftime("%Y年-%m月-%d日%H:%M:%S")<cr><cr><esc>50i-<esc>o
+iab xdate <c-r>=strftime("%Y年%m月%d日%H:%M:%S")<cr>
 "插入时间 iab为插入模式下缩写
 ab vimrc :e ~\vimfiles\vimrc
 "直接打开vimrc文件
