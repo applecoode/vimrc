@@ -324,8 +324,8 @@ let g:asyncrun_encs='gbk'
 "Asnycrun显示中文
 nnoremap <leader>c "*yiw
 "为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
-"切换中文输入法补丁（目前不能用）
 " let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
+"切换中文输入法补丁（目前不能用）
 
 "==========================
 "自己写的插件(仅限公安网)
@@ -344,6 +344,6 @@ iab xdate <c-r>=strftime("%Y年%m月%d日%H:%M:%S")<cr>
 ab vimrc :e ~\vimfiles\vimrc
 "直接打开vimrc文件
 iab ifname if __name__=='__main__':<cr>
-" 你懂的
+"你懂的
 ab ner NERDTree
-" 让打开目录快一些
+"让打开目录快一些
