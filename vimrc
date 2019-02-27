@@ -45,7 +45,7 @@ set relativenumber
 "    let cmd = $VIMRUNTIME . '\diff'
 "  endif
 "  let cmd = substitute(cmd, '!', '\!', 'g')
-"  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+"  silent execut '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
 "  if exists('l:shxq_sav')
 "    let &shellxquote=l:shxq_sav
 "  endif
@@ -213,7 +213,7 @@ noremap! <c-f> <right>
 noremap! <c-e> <end>
 noremap! <c-a> <home>
 "翻译,前面需要pip install ici
-nnoremap <leader>y :!ici <C-R><C-W><CR>
+"nnoremap <leader>y :!ici <C-R><C-W><CR>
 "noremap! <caps lock> <esc>
 "绑定搜索vimwiki diary的主题
 nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
@@ -222,7 +222,7 @@ nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 
 
 "==========================
-"REPL插件设定 
+"python调试插件REPL插件设定 
 "==========================
 nnoremap <a-r> :REPLToggle<Cr>
 let g:repl_width = 0
@@ -247,6 +247,7 @@ let g:repl_exit_commands = {
                         \ "zhs":"exit",
                         \ "default":"exit",
                         \ }
+
 "==========================
 "ycm插件设定
 "==========================
@@ -309,6 +310,8 @@ inoremap <M-o> <esc>:pclose<cr>a
 nnoremap <M-y> :let g:ycm_auto_trigger=0<cr>
 nnoremap <M-Y>  :let g:ycm_auto_trigger=1<cr>
 "切换是否开启ycm补全
+set g:ycm_add_preview_to_completeopt=0
+"设置默认不开启proview窗口
 nnoremap <M-s> :call Switchpreview()<cr>
 func! Switchpreview()
   if g:ycm_add_preview_to_completeopt==1
