@@ -3,8 +3,8 @@ if has('win32') && has('win64')
         behave mswin
         noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
         noremap <f12> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleTransparency', "247,180")<cr>
+        "全屏和透明窗体,需要gvim_fullscreen.dll支持
 endif
-"全屏和透明窗体,需要gvim_fullscreen.dll支持
 
 set guioptions=
 "去除界面上所有东西
@@ -347,3 +347,5 @@ iab ifname if __name__=='__main__':<cr>
 " 你懂的
 ab ner NERDTree
 " 让打开目录快一些
+ab ti tab term ipython
+" 快速打开ipython
