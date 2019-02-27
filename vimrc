@@ -8,6 +8,8 @@ endif
 
 set guioptions=
 "去除界面上所有东西
+set showtabline = 1
+"只在需要时显示tabline
 
 let mapleader = ','
 let g:mapleader = ','
