@@ -310,6 +310,7 @@ inoremap <M-o> <esc>:pclose<cr>a
 nnoremap <M-y> :let g:ycm_auto_trigger=0<cr>
 nnoremap <M-Y>  :let g:ycm_auto_trigger=1<cr>
 "切换是否开启ycm补全
+set completeopt=menu,menuone
 let g:ycm_add_preview_to_completeopt=0
 "设置默认不开启proview窗口
 nnoremap <M-s> :call Switchpreview()<cr>
