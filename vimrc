@@ -360,7 +360,7 @@ ab ti tab term ipython
 " 快速打开ipython
 
 
-nnoremap <F12> :call <cr>
+nnoremap <F7> :call <cr>
 
 
 func! Searchwiki()
