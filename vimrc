@@ -212,6 +212,7 @@ noremap! <c-b> <left>
 noremap! <c-f> <right>
 noremap! <c-e> <end>
 noremap! <c-a> <home>
+noremap <BS> :nohl<cr>
 "翻译,前面需要pip install ici
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
 "noremap! <caps lock> <esc>
@@ -247,6 +248,8 @@ let g:repl_exit_commands = {
                         \ "zhs":"exit",
                         \ "default":"exit",
                         \ }
+
+
 
 "==========================
 "ycm插件设定
@@ -311,6 +314,7 @@ nnoremap <M-y> :let g:ycm_auto_trigger=0<cr>
 nnoremap <M-Y>  :let g:ycm_auto_trigger=1<cr>
 "切换是否开启ycm补全
 let g:ycm_add_preview_to_completeopt=0
+set completeopt=menu,menuone
 "设置默认不开启proview窗口
 nnoremap <M-s> :call Switchpreview()<cr>
 func! Switchpreview()
@@ -354,3 +358,11 @@ ab ner NERDTree
 " 让打开目录快一些
 ab ti tab term ipython
 " 快速打开ipython
+
+
+nnoremap <F12> :call <cr>
+
+
+func! Searchwiki()
+        call setcmdpos(1) 
+endfunc
