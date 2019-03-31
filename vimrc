@@ -170,6 +170,7 @@ Plugin 'vim-airline/vim-airline' "底部美化
 Plugin 'vim-airline/vim-airline-themes' "美化主题
 Plugin 'mattn/emmet-vim' " html补全插件 c-y,
 Plugin 'tpope/vim-surround' " 两边补符号插件 ds cs ys
+Plugin 'iamcco/markdown-preview.vim' " markdown预览插件
 " Plugin 'lyokha/vim-xkbswitch' " 自动在normal模式下切换输入法插件
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -360,9 +361,77 @@ ab ti tab term ipython
 " 快速打开ipython
 
 
+"==========================
+"test
+"==========================
+
 nnoremap <F7> :call <cr>
 
 
 func! Searchwiki()
         call setcmdpos(1) 
 endfunc
+
+
+"==========================
+"other function
+"==========================
+" InitGitignore: 个人 gitignore 默认配置
+" [[[
+command! InitGitignore call InitGitignore()
+au BufRead,BufNewFile *.gitignore		set filetype=gitignore
+autocmd BufNewFile .gitignore exec "call InitGitignore()"
+function! InitGitignore()
+    if &filetype ==# 'gitignore'
+        let s:ignore = [
+                    \'test.*', 'tmp.*',
+                    \ '.tags', '*.pyc', '*.o', '*.out', '*.log',
+                    \ '.idea/', '/.idea',
+                    \ 'build/',
+                    \ '__pycache__'
+                    \]
+        let s:lines = line('$')
+        normal O
+        call append(0, s:ignore)
+    endif
+endfunction
+" ]]]
+
+" BrowserOpen: 打开文件或网址
+" [[[
+command! -nargs=+ BrowserOpen call BrowserOpen(<q-args>)
+function! BrowserOpen(obj)
+    " windows(mingw)
+    if has('win32') || has('win64') || has('win32unix')
+        let cmd = 'rundll32 url.dll,FileProtocolHandler ' . a:obj
+    elseif has('mac') || has('macunix') || has('gui_macvim') || system('uname') =~? '^darwin'
+        let cmd = 'open ' . a:obj
+    elseif executable('xdg-open')
+        let cmd = 'xdg-open ' . a:obj
+    else
+        echoerr "No browser found, please contact the developer."
+    endif
+
+    if exists('*jobstart')
+        call jobstart(cmd)
+    elseif exists('*job_start')
+        call job_start(cmd)
+    else
+        call system(cmd)
+    endif
+endfunction
+" ]]]
+
+"自动打开文件所在目录
+"" FileExplore: 在文件浏览器中打开当前目录
+" [[[
+noremap <silent> <F2> <Esc>:call FileExplore()<CR>
+command! FileExplore call FileExplore()
+function! FileExplore()
+    let l:path = expand(getcwd())
+    call BrowserOpen(l:path)
+    echoerr "aaaaa"
+endfunction
+" ]]]
+
+
