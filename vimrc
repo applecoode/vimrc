@@ -1,11 +1,15 @@
 source $VIMRUNTIME/vimrc_example.vim
-behave mswin
-noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
-noremap <f12> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleTransparency', "247,180")<cr>
-"全屏和透明窗体,需要gvim_fullscreen.dll支持
+if has('win32') && has('win64')
+        behave mswin
+        noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
+        noremap <f12> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleTransparency', "247,180")<cr>
+        "全屏和透明窗体,需要gvim_fullscreen.dll支持
+endif
 
 set guioptions=
 "去除界面上所有东西
+set showtabline=1
+"只在需要时显示tabline
 
 let mapleader = ','
 let g:mapleader = ','
@@ -41,7 +45,7 @@ set relativenumber
 "    let cmd = $VIMRUNTIME . '\diff'
 "  endif
 "  let cmd = substitute(cmd, '!', '\!', 'g')
-"  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+"  silent execut '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
 "  if exists('l:shxq_sav')
 "    let &shellxquote=l:shxq_sav
 "  endif
@@ -68,7 +72,7 @@ set gfw=幼圆:h14 "设置中文字体
 set tabstop=4 "设置tab的跳数
 set expandtab
 set backspace=2 "设置退格键可用
-set nu! "设置显示行号
+set nu "设置显示行号
 set wrap "设置自动换行
 "set nowrap "设置不自动换行
 set linebreak "整词换行，与自动换行搭配使用
@@ -77,7 +81,7 @@ set autochdir "自动设置当前目录为正在编辑的目录
 set hidden "自动隐藏没有保存的缓冲区，切换buffer时不给出保存当前buffer的提示
 set scrolloff=5 "在光标接近底端或顶端时，自动下滚或上滚
 "Toggle Menu and Toolbar "隐藏菜单栏和工具栏
-set showtabline=2 "设置显是显示标签栏
+"set showtabline=2 "设置显是显示标签栏
 set autoread "设置当文件在外部被修改，自动更新该文件
 set mouse=a "设置在任何模式下鼠标都可用
 set nobackup "设置不生成备份文件
@@ -178,6 +182,7 @@ Plugin 'vim-airline/vim-airline' "底部美化
 Plugin 'vim-airline/vim-airline-themes' "美化主题
 Plugin 'mattn/emmet-vim' " html补全插件 c-y,
 Plugin 'tpope/vim-surround' " 两边补符号插件 ds cs ys
+Plugin 'iamcco/markdown-preview.vim' " markdown预览插件
 " Plugin 'lyokha/vim-xkbswitch' " 自动在normal模式下切换输入法插件
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -220,16 +225,18 @@ noremap! <c-b> <left>
 noremap! <c-f> <right>
 noremap! <c-e> <end>
 noremap! <c-a> <home>
+noremap <BS> :nohl<cr>
 "翻译,前面需要pip install ici
-nnoremap <leader>y :!ici <C-R><C-W><CR>
+"nnoremap <leader>y :!ici <C-R><C-W><CR>
 "noremap! <caps lock> <esc>
 "绑定搜索vimwiki diary的主题
 nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 
 
 
+
 "==========================
-"REPL插件设定 
+"python调试插件REPL插件设定 
 "==========================
 nnoremap <a-r> :REPLToggle<Cr>
 let g:repl_width = 0
@@ -254,6 +261,9 @@ let g:repl_exit_commands = {
                         \ "zhs":"exit",
                         \ "default":"exit",
                         \ }
+
+
+
 "==========================
 "ycm插件设定
 "==========================
@@ -316,6 +326,9 @@ inoremap <M-o> <esc>:pclose<cr>a
 nnoremap <M-y> :let g:ycm_auto_trigger=0<cr>
 nnoremap <M-Y>  :let g:ycm_auto_trigger=1<cr>
 "切换是否开启ycm补全
+let g:ycm_add_preview_to_completeopt=0
+set completeopt=menu,menuone
+"设置默认不开启proview窗口
 nnoremap <M-s> :call Switchpreview()<cr>
 func! Switchpreview()
   if g:ycm_add_preview_to_completeopt==1
@@ -333,8 +346,9 @@ let g:asyncrun_encs='gbk'
 "Asnycrun显示中文
 nnoremap <leader>c "*yiw
 "为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
-"切换中文输入法补丁（目前不能用）
 " let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
+"切换中文输入法补丁（目前不能用）
+
 "==========================
 "自己写的插件(仅限公安网)
 "==========================
@@ -343,8 +357,101 @@ nnoremap <silent><M-9> :py3file ~\vimfiles\myscript\spider.py<cr>
 nnoremap <silent><M-8> :py3file ~\vimfiles\myscript\sql_anytime.py<cr>
 "自动查询sql语句
 
+<<<<<<< HEAD
 "==========================
 "abbreviation
 "==========================
 ab vimrc e ~\vimfiles\vimrc
 ab ner NERDTree
+=======
+
+"==========================
+"all ab and iab
+"==========================
+iab xdate <c-r>=strftime("%Y年%m月%d日%H:%M:%S")<cr>
+"插入时间 iab为插入模式下缩写
+ab vimrc :e ~\vimfiles\vimrc
+"直接打开vimrc文件
+iab ifname if __name__=='__main__':<cr>
+"你懂的
+ab ner NERDTree
+"让打开目录快一些
+ab ti tab term ipython
+" 快速打开ipython
+
+
+"==========================
+"test
+"==========================
+
+nnoremap <F7> :call <cr>
+
+
+func! Searchwiki()
+        call setcmdpos(1) 
+endfunc
+
+
+"==========================
+"other function
+"==========================
+" InitGitignore: 个人 gitignore 默认配置
+" [[[
+command! InitGitignore call InitGitignore()
+au BufRead,BufNewFile *.gitignore		set filetype=gitignore
+autocmd BufNewFile .gitignore exec "call InitGitignore()"
+function! InitGitignore()
+    if &filetype ==# 'gitignore'
+        let s:ignore = [
+                    \'test.*', 'tmp.*',
+                    \ '.tags', '*.pyc', '*.o', '*.out', '*.log',
+                    \ '.idea/', '/.idea',
+                    \ 'build/',
+                    \ '__pycache__'
+                    \]
+        let s:lines = line('$')
+        normal O
+        call append(0, s:ignore)
+    endif
+endfunction
+" ]]]
+
+" BrowserOpen: 打开文件或网址
+" [[[
+command! -nargs=+ BrowserOpen call BrowserOpen(<q-args>)
+function! BrowserOpen(obj)
+    " windows(mingw)
+    if has('win32') || has('win64') || has('win32unix')
+        let cmd = 'rundll32 url.dll,FileProtocolHandler ' . a:obj
+    elseif has('mac') || has('macunix') || has('gui_macvim') || system('uname') =~? '^darwin'
+        let cmd = 'open ' . a:obj
+    elseif executable('xdg-open')
+        let cmd = 'xdg-open ' . a:obj
+    else
+        echoerr "No browser found, please contact the developer."
+    endif
+
+    if exists('*jobstart')
+        call jobstart(cmd)
+    elseif exists('*job_start')
+        call job_start(cmd)
+    else
+        call system(cmd)
+    endif
+endfunction
+" ]]]
+
+"自动打开文件所在目录
+"" FileExplore: 在文件浏览器中打开当前目录
+" [[[
+noremap <silent> <F2> <Esc>:call FileExplore()<CR>
+command! FileExplore call FileExplore()
+function! FileExplore()
+    let l:path = expand(getcwd())
+    call BrowserOpen(l:path)
+    echoerr "aaaaa"
+endfunction
+" ]]]
+
+
+>>>>>>> dev
