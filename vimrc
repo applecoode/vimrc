@@ -149,59 +149,19 @@ endfunc
 "==========================
 "插件定义
 "==========================
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/vimfiles/bundle/Vundle.vim
-call vundle#begin('~/vimfiles/bundle')
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim' "插件应用
-Plugin 'scrooloose/nerdtree' "目录树插件
-Plugin 'jiangmiao/auto-pairs' "自动括号插件
-Plugin 'sillybun/vim-repl' "自动括号插件
-Plugin 'Valloric/YouCompleteMe' "自动补全插件
-Plugin 'vimwiki/vimwiki' "笔记插件
-Plugin 'skywind3000/asyncrun.vim' "异步插件
-Plugin 'vim-airline/vim-airline' "底部美化
-Plugin 'vim-airline/vim-airline-themes' "美化主题
-Plugin 'mattn/emmet-vim' " html补全插件 c-y,
-Plugin 'tpope/vim-surround' " 两边补符号插件 ds cs ys
-" Plugin 'lyokha/vim-xkbswitch' " 自动在normal模式下切换输入法插件
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-"Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-"Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-"Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+call plug#begin('~/vimfiles/plugged')
+Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
+Plug 'scrooloose/nerdtree' "目录树插件
+Plug 'jiangmiao/auto-pairs' "自动括号插件
+Plug 'sillybun/vim-repl' "自动括号插件
+Plug 'Valloric/YouCompleteMe' "自动补全插件
+Plug 'vimwiki/vimwiki' "笔记插件
+Plug 'skywind3000/asyncrun.vim' "异步插件
+Plug 'vim-airline/vim-airline' "底部美化
+Plug 'vim-airline/vim-airline-themes' "美化主题
+Plug 'mattn/emmet-vim' " html补全插件 c-y,
+Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
+call plug#end()
 
 "==========================
 "键盘映射
@@ -212,6 +172,7 @@ noremap! <c-b> <left>
 noremap! <c-f> <right>
 noremap! <c-e> <end>
 noremap! <c-a> <home>
+noremap <BS> :nohl<cr>
 "翻译,前面需要pip install ici
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
 "noremap! <caps lock> <esc>
@@ -248,6 +209,8 @@ let g:repl_exit_commands = {
                         \ "default":"exit",
                         \ }
 
+
+
 "==========================
 "ycm插件设定
 "==========================
@@ -264,7 +227,10 @@ let g:ycm_global_ycm_extra_conf="~\\vimfiles\\bundle\\YouCompleteMe\\.ycm_extra_
 :map <Leader>tt <Plug>VimwikiToggleListItem
 "任务模式快捷键
 
-
+"==========================
+"previm设置
+"==========================
+let g:previm_open_cmd = 'chrome'
 
 "==========================
 "YCM设置
@@ -312,6 +278,7 @@ nnoremap <M-Y>  :let g:ycm_auto_trigger=1<cr>
 "切换是否开启ycm补全
 set completeopt=menu,menuone
 let g:ycm_add_preview_to_completeopt=0
+set completeopt=menu,menuone
 "设置默认不开启proview窗口
 nnoremap <M-s> :call Switchpreview()<cr>
 func! Switchpreview()
@@ -355,3 +322,78 @@ ab ner NERDTree
 "让打开目录快一些
 ab ti tab term ipython
 " 快速打开ipython
+
+
+"==========================
+"test
+"==========================
+
+nnoremap <F7> :call <cr>
+
+
+func! Searchwiki()
+        call setcmdpos(1) 
+endfunc
+
+
+"==========================
+"other function
+"==========================
+" InitGitignore: 个人 gitignore 默认配置
+" [[[
+command! InitGitignore call InitGitignore()
+au BufRead,BufNewFile *.gitignore		set filetype=gitignore
+autocmd BufNewFile .gitignore exec "call InitGitignore()"
+function! InitGitignore()
+    if &filetype ==# 'gitignore'
+        let s:ignore = [
+                    \'test.*', 'tmp.*',
+                    \ '.tags', '*.pyc', '*.o', '*.out', '*.log',
+                    \ '.idea/', '/.idea',
+                    \ 'build/',
+                    \ '__pycache__'
+                    \]
+        let s:lines = line('$')
+        normal O
+        call append(0, s:ignore)
+    endif
+endfunction
+" ]]]
+
+" BrowserOpen: 打开文件或网址
+" [[[
+command! -nargs=+ BrowserOpen call BrowserOpen(<q-args>)
+function! BrowserOpen(obj)
+    " windows(mingw)
+    if has('win32') || has('win64') || has('win32unix')
+        let cmd = 'rundll32 url.dll,FileProtocolHandler ' . a:obj
+    elseif has('mac') || has('macunix') || has('gui_macvim') || system('uname') =~? '^darwin'
+        let cmd = 'open ' . a:obj
+    elseif executable('xdg-open')
+        let cmd = 'xdg-open ' . a:obj
+    else
+        echoerr "No browser found, please contact the developer."
+    endif
+
+    if exists('*jobstart')
+        call jobstart(cmd)
+    elseif exists('*job_start')
+        call job_start(cmd)
+    else
+        call system(cmd)
+    endif
+endfunction
+" ]]]
+
+"自动打开文件所在目录
+"" FileExplore: 在文件浏览器中打开当前目录
+" [[[
+noremap <silent> <F2> <Esc>:call FileExplore()<CR>
+command! FileExplore call FileExplore()
+function! FileExplore()
+    let l:path = expand(getcwd())
+    call BrowserOpen(l:path)
+endfunction
+" ]]]
+
+
