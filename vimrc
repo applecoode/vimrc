@@ -123,6 +123,9 @@ nnoremap <F8> :call CompileRunGcc()<cr>
 
 func! CompileRunGcc()
           exec "w"
+          if &filetype == 'markdown'
+                  exec    "MarkdownPreview"
+          endif
           if &filetype == 'python'
                   if search("@profile")
                           exec "AsyncRun kernprof -l -v %"
@@ -150,7 +153,8 @@ endfunc
 "插件定义
 "==========================
 call plug#begin('~/vimfiles/plugged')
-Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
+Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } 
+"markdown预览
 Plug 'scrooloose/nerdtree' "目录树插件
 Plug 'jiangmiao/auto-pairs' "自动括号插件
 Plug 'sillybun/vim-repl' "自动括号插件
@@ -161,6 +165,7 @@ Plug 'vim-airline/vim-airline' "底部美化
 Plug 'vim-airline/vim-airline-themes' "美化主题
 Plug 'mattn/emmet-vim' " html补全插件 c-y,
 Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 "==========================
@@ -378,7 +383,7 @@ function! BrowserOpen(obj)
     if exists('*jobstart')
         call jobstart(cmd)
     elseif exists('*job_start')
-        call job_start(cmd)
+        exec '!start '  . cmd
     else
         call system(cmd)
     endif
