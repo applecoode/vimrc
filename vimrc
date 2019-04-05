@@ -123,7 +123,7 @@ nnoremap <F8> :call CompileRunGcc()<cr>
 
 func! CompileRunGcc()
           exec "w"
-          if &filetype == 'markdown'
+          if &filetype == 'markdown' || &filetype == 'vimwiki'
                   exec    "MarkdownPreview"
           endif
           if &filetype == 'python'
@@ -165,7 +165,8 @@ Plug 'vim-airline/vim-airline' "底部美化
 Plug 'vim-airline/vim-airline-themes' "美化主题
 Plug 'mattn/emmet-vim' " html补全插件 c-y,
 Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive' " git命令嵌入vim G
+Plug 'Yggdroot/LeaderF',{ 'do': '.\install.bat' } " leaderf
 call plug#end()
 
 "==========================
@@ -223,23 +224,6 @@ let g:repl_exit_commands = {
 let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
 "let g:ycm_server_python_interpreter="C:\\Program Files\\python37\\Python.exe"
 let g:ycm_global_ycm_extra_conf="~\\vimfiles\\bundle\\YouCompleteMe\\.ycm_extra_conf.py"
-
-"==========================
-"vimwiki设置
-"==========================
-"let g:vimwiki_list = [{'path': '~/my_diary/', 'path_html': '~/my_diary_html/'},
-"                     \{'path': '~/my_wiki/', 'path_html': '~/my_wiki_html/'}]
-:map <Leader>tt <Plug>VimwikiToggleListItem
-"任务模式快捷键
-
-"==========================
-"previm设置
-"==========================
-let g:previm_open_cmd = 'chrome'
-
-"==========================
-"YCM设置
-"==========================
 "let g:ycm_key_invoke_completion='<c-z>' 
 "设置基于语义补全的快捷键
 let g:ycm_semantic_triggers={
@@ -260,6 +244,19 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 "                \"html":1,
 "                \}
 "设置补全白名单
+
+"==========================
+"vimwiki设置
+"==========================
+"let g:vimwiki_list = [{'path': '~/my_diary/', 'path_html': '~/my_diary_html/'},
+"                     \{'path': '~/my_wiki/', 'path_html': '~/my_wiki_html/'}]
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                          \ 'syntax': 'markdown', 'ext': '.md'}]
+"使用markdown方式记录wiki
+map <Leader>tt <Plug>VimwikiToggleListItem
+"Todo快捷键
+
+
 "==========================
 "自己定义的配置
 "==========================
