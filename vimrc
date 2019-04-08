@@ -186,6 +186,10 @@ noremap <BS> :nohl<cr>
 nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 
 
+"==========================
+"markdown-preview.nvim设定
+"==========================
+let g:mkdp_browser = 'chrome'
 
 
 "==========================
@@ -214,7 +218,6 @@ let g:repl_exit_commands = {
                         \ "zhs":"exit",
                         \ "default":"exit",
                         \ }
-
 
 
 "==========================
