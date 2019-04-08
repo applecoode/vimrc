@@ -358,13 +358,6 @@ nnoremap <silent><M-9> :py3file ~\vimfiles\myscript\spider.py<cr>
 nnoremap <silent><M-8> :py3file ~\vimfiles\myscript\sql_anytime.py<cr>
 "自动查询sql语句
 
-<<<<<<< HEAD
-"==========================
-"abbreviation
-"==========================
-ab vimrc e ~\vimfiles\vimrc
-ab ner NERDTree
-=======
 
 "==========================
 "all ab and iab
@@ -454,5 +447,3 @@ function! FileExplore()
 endfunction
 " ]]]
 
-
->>>>>>> dev
