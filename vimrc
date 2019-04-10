@@ -330,15 +330,10 @@ ab ti tab term ipython
 
 
 "==========================
-"test
+"myscript.vim
 "==========================
 
-nnoremap <F7> :call <cr>
-
-
-func! Searchwiki()
-        call setcmdpos(1) 
-endfunc
+nnoremap <F7> :call test#testecho() <cr>
 
 
 "==========================
