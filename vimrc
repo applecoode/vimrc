@@ -168,6 +168,9 @@ Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
 Plug 'tpope/vim-fugitive' " git命令嵌入vim G
 Plug 'Yggdroot/LeaderF',{ 'do': '.\install.bat' } " leaderf
 Plug 'SirVer/ultisnips' " 代码片段
+Plug 'majutsushi/tagbar' " 变量浏览
+Plug 'tpope/vim-repeat' " repeat
+Plug 'sbdchd/neoformat' "format
 call plug#end()
 
 "==========================
@@ -187,12 +190,15 @@ tnoremap <c-n> <c-w>N
 "noremap! <caps lock> <esc>
 "绑定搜索vimwiki diary的主题
 nnoremap <leader>w<leader>s :vimgrep <C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
+"for fugitive
 nnoremap <leader>gc :Gcommit <cr>
 nnoremap <leader>gr :Gread <cr>
 nnoremap <leader>ga :Git! add % <cr>
 nnoremap <leader>gs :Gstatus <cr>
 nnoremap <leader>gps :Gpush udisk dev <cr>
 nnoremap <leader>gpl :Gpull udisk dev <cr>
+"for tagbar
+nnoremap <leader>8 :TagbarToggle<CR>
 
 "==========================
 "ultisnips设定
