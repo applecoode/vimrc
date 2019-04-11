@@ -186,6 +186,16 @@ tnoremap <c-n> <c-w>N
 "noremap! <caps lock> <esc>
 "绑定搜索vimwiki diary的主题
 nnoremap <leader>w<leader>s :vimgrep <C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
+nnoremap <leader>gc :Gcommit <cr>
+nnoremap <leader>gr :Gread <cr>
+nnoremap <leader>ga :Git! add % <cr>
+nnoremap <leader>gs :Gstatus <cr>
+
+"==========================
+"asyncrun设定
+"==========================
+
+
 
 "==========================
 "asyncrun设定
