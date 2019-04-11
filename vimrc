@@ -167,6 +167,7 @@ Plug 'mattn/emmet-vim' " html补全插件 c-y,
 Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
 Plug 'tpope/vim-fugitive' " git命令嵌入vim G
 Plug 'Yggdroot/LeaderF',{ 'do': '.\install.bat' } " leaderf
+Plug 'SirVer/ultisnips' " 代码片段
 call plug#end()
 
 "==========================
@@ -194,10 +195,13 @@ nnoremap <leader>gps :Gpush udisk dev <cr>
 nnoremap <leader>gpl :Gpull udisk dev <cr>
 
 "==========================
-"asyncrun设定
+"ultisnips设定
 "==========================
-
-
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 "==========================
 "asyncrun设定
