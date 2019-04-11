@@ -185,6 +185,17 @@ noremap <BS> :nohl<cr>
 "绑定搜索vimwiki diary的主题
 nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 
+"==========================
+"asyncrun设定
+"==========================
+let asyncrun_encs = 'gbk'
+"防止Asyncrun出现乱码
+let g:asyncrun_status = ''
+let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+"for airline
+command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+
+
 
 "==========================
 "markdown-preview.nvim设定
@@ -263,8 +274,6 @@ map <Leader>tt <Plug>VimwikiToggleListItem
 "==========================
 "自己定义的配置
 "==========================
-let asyncrun_encs = 'gbk'
-"防止Asyncrun出现乱码
 nnoremap <silent><M-c> :call TaggleQuickWin()<cr>
 inoremap <silent><M-c> <esc>:call TaggleQuickWin()<cr>
 func! TaggleQuickWin()
