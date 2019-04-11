@@ -11,8 +11,8 @@ set guioptions=
 set showtabline=1
 "只在需要时显示tabline
 
-let mapleader = ','
-let g:mapleader = ','
+let mapleader = " "
+let g:mapleader = " "
 "修改leaderkey
 
 set relativenumber 
@@ -179,11 +179,13 @@ noremap! <c-f> <right>
 noremap! <c-e> <end>
 noremap! <c-a> <home>
 noremap <BS> :nohl<cr>
+nnoremap <silent><leader>pp :set filetype=python<cr>
+tnoremap <c-n> <c-w>N
 "翻译,前面需要pip install ici
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
 "noremap! <caps lock> <esc>
 "绑定搜索vimwiki diary的主题
-nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
+nnoremap <leader>w<leader>s :vimgrep <C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 
 "==========================
 "asyncrun设定
@@ -212,7 +214,6 @@ let g:mkdp_browser = 'chrome'
 nnoremap <a-r> :REPLToggle<Cr>
 let g:repl_width = 0
 let g:repl_height = 0
-let g:sendtorepl_invoke_key = "<a-w>"
 let g:repl_position = 0
 let g:repl_stayatrepl_when_open = 0
 
