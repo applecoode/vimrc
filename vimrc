@@ -194,8 +194,11 @@ let g:asyncrun_status = ''
 let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
 "for airline
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
-
-
+"for fugitive Gpush Gfetch
+"linux
+"let g:asyncrun_exit = "silent call system('afplay ~/.vim/notify.wav &')"
+let g:asyncrun_exit = 'silent !start c:\users\administrator\vimfiles\win\playwav.exe "c:\users\administrator\vimfiles\win\sound_4.wav" 200'
+"执行完毕播放声音
 
 "==========================
 "markdown-preview.nvim设定
@@ -307,8 +310,6 @@ func! Switchpreview()
   endif
 endfunction
 "切换补ycm全时是否出现preview窗口
-let g:asyncrun_encs='gbk'
-"Asnycrun显示中文
 nnoremap <leader>c "*yiw
 "为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
 " let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
@@ -336,7 +337,8 @@ ab ner NERDTree
 "让打开目录快一些
 ab ti tab term ipython
 " 快速打开ipython
-
+ab ap AsyncRun python
+" 异步执行python
 
 "==========================
 "myscript.vim
