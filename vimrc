@@ -199,6 +199,8 @@ nnoremap <leader>gps :Gpush udisk dev <cr>
 nnoremap <leader>gpl :Gpull udisk dev <cr>
 "for tagbar
 nnoremap <leader>8 :TagbarToggle<CR>
+"chrome
+nnoremap <leader>ch :!start chrome<cr>
 
 "==========================
 "ultisnips设定
