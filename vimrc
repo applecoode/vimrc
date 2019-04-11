@@ -171,6 +171,7 @@ Plug 'SirVer/ultisnips' " 代码片段
 Plug 'majutsushi/tagbar' " 变量浏览
 Plug 'tpope/vim-repeat' " repeat
 Plug 'sbdchd/neoformat' "format
+Plug 'easymotion/vim-easymotion' "easymotion
 call plug#end()
 
 "==========================
