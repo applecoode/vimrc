@@ -190,6 +190,8 @@ nnoremap <leader>gc :Gcommit <cr>
 nnoremap <leader>gr :Gread <cr>
 nnoremap <leader>ga :Git! add % <cr>
 nnoremap <leader>gs :Gstatus <cr>
+nnoremap <leader>gps :Gpush udisk dev <cr>
+nnoremap <leader>gpl :Gpull udisk dev <cr>
 
 "==========================
 "asyncrun设定
