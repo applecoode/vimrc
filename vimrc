@@ -335,7 +335,7 @@ func! Switchpreview()
   endif
 endfunction
 "切换补ycm全时是否出现preview窗口
-nnoremap <leader>c "*yiw
+nnoremap <leader>cc "*yiw
 "为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
 " let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
 "切换中文输入法补丁（目前不能用）
