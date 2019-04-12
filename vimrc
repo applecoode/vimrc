@@ -357,8 +357,6 @@ iab xdate <c-r>=strftime("%Y年%m月%d日%H:%M:%S")<cr>
 "插入时间 iab为插入模式下缩写
 ab vimrc :e ~\vimfiles\vimrc
 "直接打开vimrc文件
-iab ifname if __name__=='__main__':<cr>
-"你懂的
 ab ner NERDTree
 "让打开目录快一些
 ab ti tab term ipython
