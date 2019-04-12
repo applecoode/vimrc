@@ -168,7 +168,6 @@ Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
 Plug 'tpope/vim-fugitive' " git命令嵌入vim G
 Plug 'Yggdroot/LeaderF',{ 'do': '.\install.bat' } " leaderf
 Plug 'SirVer/ultisnips' " 代码片段
-Plug 'majutsushi/tagbar' " 变量浏览
 Plug 'tpope/vim-repeat' " repeat
 Plug 'sbdchd/neoformat' "format
 Plug 'easymotion/vim-easymotion' "easymotion
