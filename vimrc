@@ -62,6 +62,7 @@ source $VIMRUNTIME/menu.vim
 "vim提示信息乱码的解决
 language messages zh_CN.utf-8
 filetype on
+filetype indent on
 filetype plugin indent on
 "colorscheme evening "配色方案
 colorscheme desert
@@ -102,7 +103,7 @@ set ruler "在编辑过程中，在右下角显示光标位置的状态行
 "===========================
 "代码设置
 "===========================
-syntax enable "打开语法高亮
+"syntax enable "打开语法高亮
 syntax on "打开语法高亮
 set showmatch "设置匹配模式，相当于括号匹配
 set smartindent "智能对齐
@@ -167,10 +168,11 @@ Plug 'mattn/emmet-vim' " html补全插件 c-y,
 Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
 Plug 'tpope/vim-fugitive' " git命令嵌入vim G
 Plug 'Yggdroot/LeaderF',{ 'do': '.\install.bat' } " leaderf
-Plug 'SirVer/ultisnips' " 代码片段
 Plug 'tpope/vim-repeat' " repeat
 Plug 'sbdchd/neoformat' "format
 Plug 'easymotion/vim-easymotion' "easymotion
+Plug 'SirVer/ultisnips' " 代码片段
+Plug 'honza/vim-snippets' "各种片段
 call plug#end()
 
 "==========================
@@ -184,6 +186,8 @@ noremap! <c-e> <end>
 noremap! <c-a> <home>
 noremap <BS> :nohl<cr>
 nnoremap <silent><leader>pp :set filetype=python<cr>
+nnoremap <silent><leader>md :set filetype=markdown<cr>
+nnoremap <silent><leader>wd :e d:\zhangbin\doc\strangeword.txt<cr>
 tnoremap <c-n> <c-w>N
 "翻译,前面需要pip install ici
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
@@ -197,8 +201,6 @@ nnoremap <leader>ga :Git! add % <cr>
 nnoremap <leader>gs :Gstatus <cr>
 nnoremap <leader>gps :Gpush udisk dev <cr>
 nnoremap <leader>gpl :Gpull udisk dev <cr>
-"for tagbar
-nnoremap <leader>8 :TagbarToggle<CR>
 "chrome
 nnoremap <leader>ch :!start chrome<cr>
 
@@ -207,7 +209,7 @@ nnoremap <leader>ch :!start chrome<cr>
 "==========================
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
@@ -260,12 +262,14 @@ let g:repl_exit_commands = {
 
 
 "==========================
-"ycm插件设定
+"ycm插件设定;
 "==========================
-                        
+let g:ycm_key_list_previous_completion = ['<Up>']
+let g:ycm_key_list_select_completion = ['<Enter>','<Down>']
+"防止和ultisnip按键冲突
 let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
 "let g:ycm_server_python_interpreter="C:\\Program Files\\python37\\Python.exe"
-let g:ycm_global_ycm_extra_conf="~\\vimfiles\\bundle\\YouCompleteMe\\.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf="~\\vimfiles\\plugged\\YouCompleteMe\\.ycm_extra_conf.py"
 "let g:ycm_key_invoke_completion='<c-z>' 
 "设置基于语义补全的快捷键
 let g:ycm_semantic_triggers={
@@ -297,7 +301,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
 "使用markdown方式记录wiki
 map <Leader>tt <Plug>VimwikiToggleListItem
 "Todo快捷键
-
+let g:vimwiki_table_mappings = 0
 
 "==========================
 "自己定义的配置
@@ -429,5 +433,3 @@ function! FileExplore()
     call BrowserOpen(l:path)
 endfunction
 " ]]]
-
-
