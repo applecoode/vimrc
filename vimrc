@@ -173,6 +173,19 @@ Plug 'sbdchd/neoformat' "format
 Plug 'easymotion/vim-easymotion' "easymotion
 Plug 'SirVer/ultisnips' " 代码片段
 Plug 'honza/vim-snippets' "各种片段
+"-------------------------------
+"各种文本对象
+"-------------------------------
+Plug 'kana/vim-textobj-user' " 自己定制文本对象的插件
+Plug 'kana/vim-textobj-entire' " 整个buff ae ie
+Plug 'kana/vim-textobj-line' " 一行al il
+Plug 'jceb/vim-textobj-uri' "uri au iu
+Plug 'michaeljsmith/vim-indent-object' "缩进用ai ii aI iI
+Plug 'jeetsukumaran/vim-pythonsense' "python用def class ac ic af if
+Plug 'wellle/targets.vim'
+Plug 'mg979/vim-visual-multi'
+"Plug 'glts/vim-textobj-comment' "注释文本对象,和下面的键位冲突
+"Plug 'reedes/vim-textobj-sentence' "也是键位冲突,而且不知道怎么用
 call plug#end()
 
 "==========================
