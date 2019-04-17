@@ -265,7 +265,7 @@ let g:repl_exit_commands = {
 "ycm插件设定;
 "==========================
 let g:ycm_key_list_previous_completion = ['<Up>']
-let g:ycm_key_list_select_completion = ['<Enter>','<Down>']
+let g:ycm_key_list_select_completion = ['<Down>']
 "防止和ultisnip按键冲突
 let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
 "let g:ycm_server_python_interpreter="C:\\Program Files\\python37\\Python.exe"
