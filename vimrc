@@ -1,4 +1,6 @@
-source $VIMRUNTIME/vimrc_example.vim
+"source $VIMRUNTIME/vimrc_example.vim
+source ~\vimfiles\myscript\BufOnly.vim
+"清空buff区
 if has('win32') && has('win64')
         behave mswin
         noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
@@ -182,10 +184,10 @@ Plug 'kana/vim-textobj-line' " 一行al il
 Plug 'jceb/vim-textobj-uri' "uri au iu
 Plug 'michaeljsmith/vim-indent-object' "缩进用ai ii aI iI
 Plug 'jeetsukumaran/vim-pythonsense' "python用def class ac ic af if
-Plug 'wellle/targets.vim'
-Plug 'mg979/vim-visual-multi'
+Plug 'mg979/vim-visual-multi' "多行编辑神器
 "Plug 'glts/vim-textobj-comment' "注释文本对象,和下面的键位冲突
 "Plug 'reedes/vim-textobj-sentence' "也是键位冲突,而且不知道怎么用
+"Plug 'wellle/targets.vim' "留着观察
 call plug#end()
 
 "==========================
@@ -216,7 +218,12 @@ nnoremap <leader>gps :Gpush udisk dev <cr>
 nnoremap <leader>gpl :Gpull udisk dev <cr>
 "chrome
 nnoremap <leader>ch :!start chrome<cr>
-nnoremap <leader>mm :LeaderfMru<cr>
+"leaderf
+nnoremap <leader>fm :LeaderfMru<cr>
+nnoremap <leader>fl :LeaderfLineAll<cr>
+nnoremap <leader>fc :LeaderfHistoryCmd<cr>
+nnoremap <leader>fs :LeaderfHistorySearch<cr>
+nnoremap <leader>ft :LeaderfBufTagAll<cr>
 
 "==========================
 "ultisnips设定
@@ -242,6 +249,12 @@ command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 "let g:asyncrun_exit = "silent call system('afplay ~/.vim/notify.wav &')"
 let g:asyncrun_exit = 'silent !start c:\users\administrator\vimfiles\win\playwav.exe "c:\users\administrator\vimfiles\win\sound_4.wav" 200'
 "执行完毕播放声音
+
+"==========================
+"leaderf设置
+"==========================
+let g:Lf_ShortcutF = '<leader>ff'
+let g:Lf_ShortcutB = '<leader>fb'
 
 "==========================
 "markdown-preview.nvim设定
