@@ -203,10 +203,12 @@ nnoremap <leader>gps :Gpush udisk dev <cr>
 nnoremap <leader>gpl :Gpull udisk dev <cr>
 "chrome
 nnoremap <leader>ch :!start chrome<cr>
+nnoremap <leader>mm :LeaderfMru<cr>
 
 "==========================
 "ultisnips设定
 "==========================
+let g:UltiSnipsSnippetsDir= '~\vimfiles\UltiSnips'
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
