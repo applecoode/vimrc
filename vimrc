@@ -260,7 +260,14 @@ let g:Lf_ShortcutB = '<leader>fb'
 "markdown-preview.nvim设定
 "==========================
 let g:mkdp_browser = 'chrome'
-
+"let g:mkdp_open_to_the_world = 1
+"let g:mkdp_open_ip = '192.168.199.125'
+"let g:mkdp_port = 8080
+"open your markdown curren to the world!!!!!!!!!!
+"function! g:Open_browser(url)
+"    silent exe '!lemonade open 'a:url
+"endfunction
+"let g:mkdp_browserfunc = 'g:Open_browser'
 
 "==========================
 "python调试插件REPL插件设定 
