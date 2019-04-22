@@ -184,7 +184,7 @@ Plug 'kana/vim-textobj-line' " 一行al il
 Plug 'jceb/vim-textobj-uri' "uri au iu
 Plug 'michaeljsmith/vim-indent-object' "缩进用ai ii aI iI
 Plug 'jeetsukumaran/vim-pythonsense' "python用def class ac ic af if
-Plug 'mg979/vim-visual-multi' "多行编辑神器
+"Plug 'mg979/vim-visual-multi' "多行编辑神器
 "Plug 'glts/vim-textobj-comment' "注释文本对象,和下面的键位冲突
 "Plug 'reedes/vim-textobj-sentence' "也是键位冲突,而且不知道怎么用
 "Plug 'wellle/targets.vim' "留着观察
