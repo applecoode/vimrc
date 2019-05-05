@@ -67,7 +67,8 @@ filetype on
 filetype indent on
 filetype plugin indent on
 "colorscheme evening "配色方案
-colorscheme desert
+"colorscheme desert
+
 set helplang=cn "设置中文帮助
 set history=500 "保留历史记录
 set guifont=consolas:h14 "设置字体为Monaco，大小10
@@ -175,6 +176,7 @@ Plug 'sbdchd/neoformat' "format
 Plug 'easymotion/vim-easymotion' "easymotion
 Plug 'SirVer/ultisnips' " 代码片段
 Plug 'honza/vim-snippets' "各种片段
+Plug 'rakr/vim-one' "主题
 "-------------------------------
 "各种文本对象
 "-------------------------------
@@ -255,6 +257,21 @@ let g:asyncrun_exit = 'silent !start c:\users\administrator\vimfiles\win\playwav
 "==========================
 let g:Lf_ShortcutF = '<leader>ff'
 let g:Lf_ShortcutB = '<leader>fb'
+
+"==========================
+"主题插件设置
+"==========================
+"if (empty($TMUX))
+"  if (has("termguicolors"))
+"    set termguicolors
+"  endif
+"endif
+
+let g:airline_theme='one'
+let g:one_allow_italics = 1 " I love italic for comments
+colorscheme one
+set background=dark " for the dark version
+" set background=light " for the light version
 
 "==========================
 "markdown-preview.nvim设定
@@ -422,6 +439,7 @@ function! InitGitignore()
     if &filetype ==# 'gitignore'
         let s:ignore = [
                     \'test.*', 'tmp.*',
+                    \'*~','*.swp','*.un',
                     \ '.tags', '*.pyc', '*.o', '*.out', '*.log',
                     \ '.idea/', '/.idea',
                     \ 'build/',
