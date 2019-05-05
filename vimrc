@@ -401,6 +401,7 @@ ab ti tab term ipython
 " 快速打开ipython
 ab ap AsyncRun python
 " 异步执行python
+ab xbase d:\zhangbin
 
 "==========================
 "myscript.vim
