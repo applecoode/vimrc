@@ -1,6 +1,6 @@
 "source $VIMRUNTIME/vimrc_example.vim
 source ~\vimfiles\myscript\BufOnly.vim
-"清空buff区
+"清空buff区的脚本
 if has('win32') && has('win64')
         behave mswin
         noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
@@ -19,39 +19,6 @@ let g:mapleader = " "
 
 set relativenumber 
 "设置相对行号
-"set diffexpr=MyDiff()
-"function MyDiff()
-"  let opt = '-a --binary '
-"  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-"  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-"  let arg1 = v:fname_in
-"  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-"  let arg1 = substitute(arg1, '!', '\!', 'g')
-"  let arg2 = v:fname_new
-"  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-"  let arg2 = substitute(arg2, '!', '\!', 'g')
-"  let arg3 = v:fname_out
-"  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-"  let arg3 = substitute(arg3, '!', '\!', 'g')
-"  if $VIMRUNTIME =~ ' '
-"    if &sh =~ '\<cmd'
-"      if empty(&shellxquote)
-"        let l:shxq_sav = ''
-"        set shellxquote&
-"      endif
-"      let cmd = '"' . $VIMRUNTIME . '\diff"'
-"    else
-"      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-"    endif
-"  else
-"    let cmd = $VIMRUNTIME . '\diff'
-"  endif
-"  let cmd = substitute(cmd, '!', '\!', 'g')
-"  silent execut '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
-"  if exists('l:shxq_sav')
-"    let &shellxquote=l:shxq_sav
-"  endif
-"endfunction
 
 "设置文件的代码形式 utf8
 set encoding=utf-8
@@ -177,6 +144,7 @@ Plug 'easymotion/vim-easymotion' "easymotion
 Plug 'SirVer/ultisnips' " 代码片段
 Plug 'honza/vim-snippets' "各种片段
 Plug 'rakr/vim-one' "主题
+Plug 'mg979/vim-visual-multi' "多行编辑神器
 "-------------------------------
 "各种文本对象
 "-------------------------------
@@ -186,6 +154,7 @@ Plug 'kana/vim-textobj-line' " 一行al il
 Plug 'jceb/vim-textobj-uri' "uri au iu
 Plug 'michaeljsmith/vim-indent-object' "缩进用ai ii aI iI
 Plug 'jeetsukumaran/vim-pythonsense' "python用def class ac ic af if
+"-------------------------------
 Plug 'mg979/vim-visual-multi' "多行编辑神器
 "Plug 'glts/vim-textobj-comment' "注释文本对象,和下面的键位冲突
 "Plug 'reedes/vim-textobj-sentence' "也是键位冲突,而且不知道怎么用
@@ -226,6 +195,7 @@ nnoremap <leader>fl :LeaderfLineAll<cr>
 nnoremap <leader>fc :LeaderfHistoryCmd<cr>
 nnoremap <leader>fs :LeaderfHistorySearch<cr>
 nnoremap <leader>ft :LeaderfBufTagAll<cr>
+nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
 
 "==========================
 "ultisnips设定
@@ -295,10 +265,10 @@ let g:repl_height = 0
 let g:repl_position = 0
 let g:repl_stayatrepl_when_open = 0
 
-"nnoremap <c-h> <c-w><c-h> "精简分屏模式下移动方式快捷键
-"nnoremap <c-j> <c-w><c-j>                   
-"nnoremap <c-k> <c-w><c-k>                   
-"nnoremap <c-l> <c-w><c-l>                    
+nnoremap <c-h> <c-w><c-h> "精简分屏模式下移动方式快捷键
+nnoremap <c-j> <c-w><c-j>                   
+nnoremap <c-k> <c-w><c-k>                   
+nnoremap <c-l> <c-w><c-l>                    
 
 let g:repl_program = {
     \ "python": "ipython",
@@ -418,7 +388,7 @@ ab ti tab term ipython
 " 快速打开ipython
 ab ap AsyncRun python
 " 异步执行python
-
+ab dt d:\temp
 "==========================
 "myscript.vim
 "==========================
