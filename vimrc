@@ -1,4 +1,8 @@
-source $VIMRUNTIME/vimrc_example.vim
+"source $VIMRUNTIME/vimrc_example.vim
+source ~\vimfiles\myscript\BufOnly.vim
+"清空buff区
+source ~\vimfiles\myscript\myautoload.vim
+"other window's cursor move
 if has('win32') && has('win64')
         behave mswin
         noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
@@ -11,8 +15,8 @@ set guioptions=
 set showtabline=1
 "只在需要时显示tabline
 
-let mapleader = ','
-let g:mapleader = ','
+let mapleader = " "
+let g:mapleader = " "
 "修改leaderkey
 
 set relativenumber 
@@ -62,9 +66,11 @@ source $VIMRUNTIME/menu.vim
 "vim提示信息乱码的解决
 language messages zh_CN.utf-8
 filetype on
+filetype indent on
 filetype plugin indent on
 "colorscheme evening "配色方案
-colorscheme desert
+"colorscheme desert
+
 set helplang=cn "设置中文帮助
 set history=500 "保留历史记录
 set guifont=consolas:h14 "设置字体为Monaco，大小10
@@ -102,7 +108,7 @@ set ruler "在编辑过程中，在右下角显示光标位置的状态行
 "===========================
 "代码设置
 "===========================
-syntax enable "打开语法高亮
+"syntax enable "打开语法高亮
 syntax on "打开语法高亮
 set showmatch "设置匹配模式，相当于括号匹配
 set smartindent "智能对齐
@@ -124,6 +130,9 @@ nnoremap <F8> :call CompileRunGcc()<cr>
 
 func! CompileRunGcc()
           exec "w"
+          if &filetype == 'markdown' || &filetype == 'vimwiki'
+                  exec    "MarkdownPreview"
+          endif
           if &filetype == 'python'
                   if search("@profile")
                           exec "AsyncRun kernprof -l -v %"
@@ -161,79 +170,141 @@ endfunc
 "==========================
 "插件定义
 "==========================
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/vimfiles/bundle/Vundle.vim
-call vundle#begin('~/vimfiles/bundle')
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim' "插件应用
-Plugin 'scrooloose/nerdtree' "目录树插件
-Plugin 'jiangmiao/auto-pairs' "自动括号插件
-Plugin 'sillybun/vim-repl' "自动括号插件
-Plugin 'Valloric/YouCompleteMe' "自动补全插件
-Plugin 'vimwiki/vimwiki' "笔记插件
-Plugin 'skywind3000/asyncrun.vim' "异步插件
-Plugin 'vim-airline/vim-airline' "底部美化
-Plugin 'vim-airline/vim-airline-themes' "美化主题
-Plugin 'mattn/emmet-vim' " html补全插件 c-y,
-Plugin 'tpope/vim-surround' " 两边补符号插件 ds cs ys
-Plugin 'iamcco/markdown-preview.vim' " markdown预览插件
-" Plugin 'lyokha/vim-xkbswitch' " 自动在normal模式下切换输入法插件
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-"Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-"Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-"Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+call plug#begin('~/vimfiles/plugged')
+Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } 
+"markdown预览
+"Plug 'scrooloose/nerdtree' "目录树插件
+Plug 'jiangmiao/auto-pairs' "自动括号插件
+Plug 'sillybun/vim-repl' "自动括号插件
+Plug 'Valloric/YouCompleteMe' "自动补全插件
+Plug 'vimwiki/vimwiki' "笔记插件
+Plug 'skywind3000/asyncrun.vim' "异步插件
+Plug 'vim-airline/vim-airline' "底部美化
+Plug 'vim-airline/vim-airline-themes' "美化主题
+Plug 'mattn/emmet-vim' " html补全插件 c-y,
+Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
+Plug 'tpope/vim-fugitive' " git命令嵌入vim G
+Plug 'Yggdroot/LeaderF',{ 'do': '.\install.bat' } " leaderf
+Plug 'tpope/vim-repeat' " repeat
+Plug 'sbdchd/neoformat' "format
+Plug 'easymotion/vim-easymotion' "easymotion
+Plug 'SirVer/ultisnips' " 代码片段
+Plug 'honza/vim-snippets' "各种片段
+Plug 'rakr/vim-one' "主题
+"-------------------------------
+"各种文本对象
+"-------------------------------
+Plug 'kana/vim-textobj-user' " 自己定制文本对象的插件
+Plug 'kana/vim-textobj-entire' " 整个buff ae ie
+Plug 'kana/vim-textobj-line' " 一行al il
+Plug 'jceb/vim-textobj-uri' "uri au iu
+Plug 'michaeljsmith/vim-indent-object' "缩进用ai ii aI iI
+Plug 'jeetsukumaran/vim-pythonsense' "python用def class ac ic af if
+"Plug 'mg979/vim-visual-multi' "多行编辑神器
+"Plug 'glts/vim-textobj-comment' "注释文本对象,和下面的键位冲突
+"Plug 'reedes/vim-textobj-sentence' "也是键位冲突,而且不知道怎么用
+"Plug 'wellle/targets.vim' "留着观察
+call plug#end()
 
 "==========================
-"键盘映射
+"键盘映射 kepmap
 "==========================
-
-nmap <F5> :NERDTreeToggle<cr>
+"改变当前目录为正在编辑文件的目录
+nnoremap <silent><leader>. :cd %:p:h<cr>
+"nmap <F5> :NERDTreeToggle<cr>
+nmap <F5> :Explore<cr>
 noremap! <c-b> <left>
 noremap! <c-f> <right>
 noremap! <c-e> <end>
 noremap! <c-a> <home>
 noremap <BS> :nohl<cr>
+nnoremap <silent><leader>pp :set filetype=python<cr>
+nnoremap <silent><leader>md :set filetype=markdown<cr>
+nnoremap <silent><leader>wd :e d:\zhangbin\doc\strangeword.txt<cr>
+tnoremap <c-n> <c-w>N
 "翻译,前面需要pip install ici
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
 "noremap! <caps lock> <esc>
 "绑定搜索vimwiki diary的主题
-nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
+nnoremap <leader>w<leader>s :vimgrep <C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
+"for fugitive
+nnoremap <leader>gc :Gcommit <cr>
+nnoremap <leader>gr :Gread <cr>
+nnoremap <leader>ga :Git! add % <cr>
+nnoremap <leader>gs :Gstatus <cr>
+nnoremap <leader>gps :Gpush udisk dev <cr>
+nnoremap <leader>gpl :Gpull udisk dev <cr>
+"chrome
+nnoremap <leader>ch :!start chrome<cr>
+"leaderf
+nnoremap <leader>fm :LeaderfMru<cr>
+nnoremap <leader>fl :LeaderfLineAll<cr>
+nnoremap <leader>fc :LeaderfHistoryCmd<cr>
+nnoremap <leader>fs :LeaderfHistorySearch<cr>
+nnoremap <leader>ft :LeaderfBufTagAll<cr>
+"另一个滚屏
+nnoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>
+nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
 
+"==========================
+"ultisnips设定
+"==========================
+let g:UltiSnipsSnippetsDir= '~\vimfiles\UltiSnips'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
+"==========================
+"asyncrun设定
+"==========================
+let asyncrun_encs = 'gbk'
+"防止Asyncrun出现乱码
+let g:asyncrun_status = ''
+let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+"for airline
+command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+"for fugitive Gpush Gfetch
+"linux
+"let g:asyncrun_exit = "silent call system('afplay ~/.vim/notify.wav &')"
+let g:asyncrun_exit = 'silent !start c:\users\administrator\vimfiles\win\playwav.exe "c:\users\administrator\vimfiles\win\sound_4.wav" 200'
+"执行完毕播放声音
 
+"==========================
+"leaderf设置
+"==========================
+let g:Lf_ShortcutF = '<leader>ff'
+let g:Lf_ShortcutB = '<leader>fb'
+
+"==========================
+"主题插件设置
+"==========================
+"if (empty($TMUX))
+"  if (has("termguicolors"))
+"    set termguicolors
+"  endif
+"endif
+
+let g:airline_theme='one'
+let g:one_allow_italics = 1 " I love italic for comments
+colorscheme one
+set background=dark " for the dark version
+" set background=light " for the light version
+
+"==========================
+"markdown-preview.nvim设定
+"==========================
+let g:mkdp_browser = 'chrome'
+"let g:mkdp_open_to_the_world = 1
+"let g:mkdp_open_ip = '192.168.199.125'
+"let g:mkdp_port = 8080
+"open your markdown curren to the world!!!!!!!!!!
+"function! g:Open_browser(url)
+"    silent exe '!lemonade open 'a:url
+"endfunction
+"let g:mkdp_browserfunc = 'g:Open_browser'
+let g:mkdp_markdown_css='d:\tmp\bootstrap.css'
 
 "==========================
 "python调试插件REPL插件设定 
@@ -241,7 +312,6 @@ nnoremap <leader>w<leader>s :vimgrep /<C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 nnoremap <a-r> :REPLToggle<Cr>
 let g:repl_width = 0
 let g:repl_height = 0
-let g:sendtorepl_invoke_key = "<a-w>"
 let g:repl_position = 0
 let g:repl_stayatrepl_when_open = 0
 
@@ -263,28 +333,15 @@ let g:repl_exit_commands = {
                         \ }
 
 
-
 "==========================
-"ycm插件设定
+"ycm插件设定;
 "==========================
-                        
+let g:ycm_key_list_previous_completion = ['<Up>']
+let g:ycm_key_list_select_completion = ['<Down>']
+"防止和ultisnip按键冲突
 let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
 "let g:ycm_server_python_interpreter="C:\\Program Files\\python37\\Python.exe"
-let g:ycm_global_ycm_extra_conf="~\\vimfiles\\bundle\\YouCompleteMe\\.ycm_extra_conf.py"
-
-"==========================
-"vimwiki设置
-"==========================
-"let g:vimwiki_list = [{'path': '~/my_diary/', 'path_html': '~/my_diary_html/'},
-"                     \{'path': '~/my_wiki/', 'path_html': '~/my_wiki_html/'}]
-:map <Leader>tt <Plug>VimwikiToggleListItem
-"任务模式快捷键
-
-
-
-"==========================
-"YCM设置
-"==========================
+let g:ycm_global_ycm_extra_conf="~\\vimfiles\\plugged\\YouCompleteMe\\.ycm_extra_conf.py"
 "let g:ycm_key_invoke_completion='<c-z>' 
 "设置基于语义补全的快捷键
 let g:ycm_semantic_triggers={
@@ -305,11 +362,22 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 "                \"html":1,
 "                \}
 "设置补全白名单
+
+"==========================
+"vimwiki设置
+"==========================
+"let g:vimwiki_list = [{'path': '~/my_diary/', 'path_html': '~/my_diary_html/'},
+"                     \{'path': '~/my_wiki/', 'path_html': '~/my_wiki_html/'}]
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                          \ 'syntax': 'markdown', 'ext': '.md'}]
+"使用markdown方式记录wiki
+map <Leader>tt <Plug>VimwikiToggleListItem
+"Todo快捷键
+let g:vimwiki_table_mappings = 0
+
 "==========================
 "自己定义的配置
 "==========================
-let asyncrun_encs = 'gbk'
-"防止Asyncrun出现乱码
 nnoremap <silent><M-c> :call TaggleQuickWin()<cr>
 inoremap <silent><M-c> <esc>:call TaggleQuickWin()<cr>
 func! TaggleQuickWin()
@@ -343,9 +411,7 @@ func! Switchpreview()
   endif
 endfunction
 "切换补ycm全时是否出现preview窗口
-let g:asyncrun_encs='gbk'
-"Asnycrun显示中文
-nnoremap <leader>c "*yiw
+nnoremap <leader>cc "*yiw
 "为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
 " let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
 "切换中文输入法补丁（目前不能用）
@@ -366,24 +432,20 @@ iab xdate <c-r>=strftime("%Y年%m月%d日%H:%M:%S")<cr>
 "插入时间 iab为插入模式下缩写
 ab vimrc :e ~\vimfiles\vimrc
 "直接打开vimrc文件
-iab ifname if __name__=='__main__':<cr>
-"你懂的
 ab ner NERDTree
 "让打开目录快一些
 ab ti tab term ipython
 " 快速打开ipython
-
+ab ap AsyncRun python
+" 异步执行python
+ab xbase d:\zhangbin
+ab dtp d:\temp
 
 "==========================
-"test
+"myscript.vim
 "==========================
 
-nnoremap <F7> :call <cr>
-
-
-func! Searchwiki()
-        call setcmdpos(1) 
-endfunc
+nnoremap <F7> :call test#testecho() <cr>
 
 
 "==========================
@@ -398,6 +460,7 @@ function! InitGitignore()
     if &filetype ==# 'gitignore'
         let s:ignore = [
                     \'test.*', 'tmp.*',
+                    \'*~','*.swp','*.un',
                     \ '.tags', '*.pyc', '*.o', '*.out', '*.log',
                     \ '.idea/', '/.idea',
                     \ 'build/',
@@ -428,7 +491,7 @@ function! BrowserOpen(obj)
     if exists('*jobstart')
         call jobstart(cmd)
     elseif exists('*job_start')
-        call job_start(cmd)
+        exec '!start '  . cmd
     else
         call system(cmd)
     endif
@@ -443,7 +506,5 @@ command! FileExplore call FileExplore()
 function! FileExplore()
     let l:path = expand(getcwd())
     call BrowserOpen(l:path)
-    echoerr "aaaaa"
 endfunction
 " ]]]
-
