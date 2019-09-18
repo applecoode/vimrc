@@ -1,6 +1,8 @@
 "source $VIMRUNTIME/vimrc_example.vim
 source ~\vimfiles\myscript\BufOnly.vim
 "清空buff区
+source ~\vimfiles\myscript\myautoload.vim
+"other window's cursor move
 if has('win32') && has('win64')
         behave mswin
         noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
@@ -159,7 +161,7 @@ endfunc
 call plug#begin('~/vimfiles/plugged')
 Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } 
 "markdown预览
-Plug 'scrooloose/nerdtree' "目录树插件
+"Plug 'scrooloose/nerdtree' "目录树插件
 Plug 'jiangmiao/auto-pairs' "自动括号插件
 Plug 'sillybun/vim-repl' "自动括号插件
 Plug 'Valloric/YouCompleteMe' "自动补全插件
@@ -193,10 +195,12 @@ Plug 'jeetsukumaran/vim-pythonsense' "python用def class ac ic af if
 call plug#end()
 
 "==========================
-"键盘映射
+"键盘映射 kepmap
 "==========================
-
-nmap <F5> :NERDTreeToggle<cr>
+"改变当前目录为正在编辑文件的目录
+nnoremap <silent><leader>. :cd %:p:h<cr>
+"nmap <F5> :NERDTreeToggle<cr>
+nmap <F5> :Explore<cr>
 noremap! <c-b> <left>
 noremap! <c-f> <right>
 noremap! <c-e> <end>
@@ -226,6 +230,9 @@ nnoremap <leader>fl :LeaderfLineAll<cr>
 nnoremap <leader>fc :LeaderfHistoryCmd<cr>
 nnoremap <leader>fs :LeaderfHistorySearch<cr>
 nnoremap <leader>ft :LeaderfBufTagAll<cr>
+"另一个滚屏
+nnoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>
+nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
 
 "==========================
 "ultisnips设定
@@ -285,6 +292,7 @@ let g:mkdp_browser = 'chrome'
 "    silent exe '!lemonade open 'a:url
 "endfunction
 "let g:mkdp_browserfunc = 'g:Open_browser'
+let g:mkdp_markdown_css='d:\tmp\bootstrap.css'
 
 "==========================
 "python调试插件REPL插件设定 
@@ -419,6 +427,7 @@ ab ti tab term ipython
 ab ap AsyncRun python
 " 异步执行python
 ab xbase d:\zhangbin
+ab dtp d:\temp
 
 "==========================
 "myscript.vim
