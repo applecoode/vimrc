@@ -23,3 +23,12 @@ snippet byebye
 <tag>${VISUAL:inside text/should/is/g}</tag>
 endsnippet
 
+snippet file "Description" b
+file name is `!p snip.rv = fn`
+file path is `!p snip.rv = path`
+one is $1
+two is $2
+here is t[0] = `!p snip.rv = t[1]`
+here is t[1] = `!p snip.rv = t[2]`
+snip.makelime is `!p snip.rv = snip.mkline(line="i was a snip line")`
+endsnippet

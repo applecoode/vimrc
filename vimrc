@@ -12,19 +12,16 @@ set guioptions=
 "去除界面上所有东西
 set showtabline=1
 "只在需要时显示tabline
-
 let mapleader = " "
 let g:mapleader = " "
 "修改leaderkey
-
 set relativenumber 
 "设置相对行号
-
 "设置文件的代码形式 utf8
 set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,chinese,cp936
+set fileencodings=ucs-bom,utf-8,chinese,cp936,gbk,gb2312,gb18030
 "vim的菜单乱码解决
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
@@ -35,7 +32,6 @@ filetype indent on
 filetype plugin indent on
 "colorscheme evening "配色方案
 "colorscheme desert
-
 set helplang=cn "设置中文帮助
 set history=500 "保留历史记录
 set guifont=consolas:h14 "设置字体为Monaco，大小10
@@ -57,7 +53,7 @@ set autoread "设置当文件在外部被修改，自动更新该文件
 set mouse=a "设置在任何模式下鼠标都可用
 set nobackup "设置不生成备份文件
 "set go= "不要图形按钮
-
+set noswapfile
 "===========================
 "查找/替换相关的设置
 "===========================
@@ -110,7 +106,9 @@ func! CompileRunGcc()
                           exec "wincmd p"
                   endif
           endif
-
+          if &filetype =='html'
+                exec "!chrome %"
+          endif
 endfunc
 
 func! RunPython()
@@ -126,7 +124,7 @@ endfunc
 call plug#begin('~/vimfiles/plugged')
 Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } 
 "markdown预览
-Plug 'scrooloose/nerdtree' "目录树插件
+"Plug 'scrooloose/nerdtree' "目录树插件
 Plug 'jiangmiao/auto-pairs' "自动括号插件
 Plug 'sillybun/vim-repl' "自动括号插件
 Plug 'Valloric/YouCompleteMe' "自动补全插件
@@ -144,7 +142,7 @@ Plug 'easymotion/vim-easymotion' "easymotion
 Plug 'SirVer/ultisnips' " 代码片段
 Plug 'honza/vim-snippets' "各种片段
 Plug 'rakr/vim-one' "主题
-Plug 'mg979/vim-visual-multi' "多行编辑神器
+"Plug 'mg979/vim-visual-multi' "多行编辑神器
 "-------------------------------
 "各种文本对象
 "-------------------------------
@@ -155,7 +153,6 @@ Plug 'jceb/vim-textobj-uri' "uri au iu
 Plug 'michaeljsmith/vim-indent-object' "缩进用ai ii aI iI
 Plug 'jeetsukumaran/vim-pythonsense' "python用def class ac ic af if
 "-------------------------------
-Plug 'mg979/vim-visual-multi' "多行编辑神器
 "Plug 'glts/vim-textobj-comment' "注释文本对象,和下面的键位冲突
 "Plug 'reedes/vim-textobj-sentence' "也是键位冲突,而且不知道怎么用
 "Plug 'wellle/targets.vim' "留着观察
@@ -165,15 +162,19 @@ call plug#end()
 "键盘映射
 "==========================
 
-nmap <F5> :NERDTreeToggle<cr>
-noremap! <c-b> <left>
-noremap! <c-f> <right>
-noremap! <c-e> <end>
-noremap! <c-a> <home>
+"nmap <F5> :NERDTreeToggle<cr>
+nmap <F5> :Explore<cr>
+cnoremap <c-p> <Up>
+cnoremap <c-n> <Down>
+inoremap <c-b> <left>
+inoremap <c-f> <right>
+inoremap <c-e> <end>
+inoremap <c-a> <home>
 noremap <BS> :nohl<cr>
 nnoremap <silent><leader>pp :set filetype=python<cr>
 nnoremap <silent><leader>md :set filetype=markdown<cr>
 nnoremap <silent><leader>wd :e d:\zhangbin\doc\strangeword.txt<cr>
+nnoremap <silent><leader>my :e d:\zhangbin\doc\mothermedical.txt<cr>
 tnoremap <c-n> <c-w>N
 "翻译,前面需要pip install ici
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
@@ -196,7 +197,10 @@ nnoremap <leader>fc :LeaderfHistoryCmd<cr>
 nnoremap <leader>fs :LeaderfHistorySearch<cr>
 nnoremap <leader>ft :LeaderfBufTagAll<cr>
 nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
-
+"设置拼写检查
+nnoremap <leader>sc :set spell!<cr>
+"自动展开当前目录
+cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
 "==========================
 "ultisnips设定
 "==========================
@@ -206,6 +210,11 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+"==========================
+"leaderF设定
+"==========================
+let g:Lf_MruMaxFiles = 1000
 
 "==========================
 "asyncrun设定
@@ -229,7 +238,7 @@ let g:Lf_ShortcutF = '<leader>ff'
 let g:Lf_ShortcutB = '<leader>fb'
 
 "==========================
-"主题插件设置
+"主题相关设置
 "==========================
 "if (empty($TMUX))
 "  if (has("termguicolors"))
@@ -242,7 +251,6 @@ let g:one_allow_italics = 1 " I love italic for comments
 colorscheme one
 set background=dark " for the dark version
 " set background=light " for the light version
-
 "==========================
 "markdown-preview.nvim设定
 "==========================
