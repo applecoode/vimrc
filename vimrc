@@ -1,6 +1,8 @@
 "source $VIMRUNTIME/vimrc_example.vim
 source ~\vimfiles\myscript\BufOnly.vim
-"清空buff区的脚本
+"清空buff区
+source ~\vimfiles\myscript\myautoload.vim
+"other window's cursor move
 if has('win32') && has('win64')
         behave mswin
         noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
@@ -31,7 +33,7 @@ filetype on
 filetype indent on
 filetype plugin indent on
 "colorscheme evening "配色方案
-"colorscheme desert
+"colorscheme desert 
 set helplang=cn "设置中文帮助
 set history=500 "保留历史记录
 set guifont=consolas:h14 "设置字体为Monaco，大小10
@@ -87,6 +89,7 @@ set guicursor+=a:blinkon0 "设置光标不闪烁
 "==========================
 nnoremap <F9> :call RunPython()<cr>
 nnoremap <F8> :call CompileRunGcc()<cr>
+:noremap <F7> :AsyncRun gcc "%" -o "%<"<cr> 
 
 func! CompileRunGcc()
           exec "w"
@@ -106,8 +109,15 @@ func! CompileRunGcc()
                           exec "wincmd p"
                   endif
           endif
-          if &filetype =='html'
-                exec "!chrome %"
+          if &filetype == 'html'
+                  exec  "!start chrome %"
+          endif
+          if &filetype == 'c'
+                  exec "AsyncRun gcc % -o %<"
+                  exec "copen"
+                  exec "wincmd p"
+                  exec "sleep"
+                  exec "AsyncRun %<"
           endif
 endfunc
 
@@ -115,6 +125,10 @@ func! RunPython()
         exec "w"
         if &filetype == 'python'
                 exec "!python %"
+        elseif &filetype == 'c'
+                exec "!gcc % -o %<"
+                exec "sleep"
+                exec "!%<"
         endif
 endfunc
 
@@ -152,24 +166,23 @@ Plug 'kana/vim-textobj-line' " 一行al il
 Plug 'jceb/vim-textobj-uri' "uri au iu
 Plug 'michaeljsmith/vim-indent-object' "缩进用ai ii aI iI
 Plug 'jeetsukumaran/vim-pythonsense' "python用def class ac ic af if
-"-------------------------------
+"Plug 'mg979/vim-visual-multi' "多行编辑神器
 "Plug 'glts/vim-textobj-comment' "注释文本对象,和下面的键位冲突
 "Plug 'reedes/vim-textobj-sentence' "也是键位冲突,而且不知道怎么用
 "Plug 'wellle/targets.vim' "留着观察
 call plug#end()
 
 "==========================
-"键盘映射
+"键盘映射 kepmap
 "==========================
-
+"改变当前目录为正在编辑文件的目录
+nnoremap <silent><leader>. :cd %:p:h<cr>
 "nmap <F5> :NERDTreeToggle<cr>
 nmap <F5> :Explore<cr>
-cnoremap <c-p> <Up>
-cnoremap <c-n> <Down>
-inoremap <c-b> <left>
-inoremap <c-f> <right>
-inoremap <c-e> <end>
-inoremap <c-a> <home>
+noremap! <c-b> <left>
+noremap! <c-f> <right>
+noremap! <c-e> <end>
+noremap! <c-a> <home>
 noremap <BS> :nohl<cr>
 nnoremap <silent><leader>pp :set filetype=python<cr>
 nnoremap <silent><leader>md :set filetype=markdown<cr>
@@ -183,6 +196,7 @@ tnoremap <c-n> <c-w>N
 nnoremap <leader>w<leader>s :vimgrep <C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 "for fugitive
 nnoremap <leader>gc :Gcommit <cr>
+nnoremap <leader>gw :Gwrite <cr>
 nnoremap <leader>gr :Gread <cr>
 nnoremap <leader>ga :Git! add % <cr>
 nnoremap <leader>gs :Gstatus <cr>
@@ -199,8 +213,9 @@ nnoremap <leader>ft :LeaderfBufTagAll<cr>
 nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
 "设置拼写检查
 nnoremap <leader>sc :set spell!<cr>
-"自动展开当前目录
-cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
+"另一个滚屏
+nnoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>
+nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
 "==========================
 "ultisnips设定
 "==========================
@@ -228,7 +243,7 @@ command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 "for fugitive Gpush Gfetch
 "linux
 "let g:asyncrun_exit = "silent call system('afplay ~/.vim/notify.wav &')"
-let g:asyncrun_exit = 'silent !start c:\users\administrator\vimfiles\win\playwav.exe "c:\users\administrator\vimfiles\win\sound_4.wav" 200'
+"let g:asyncrun_exit = 'silent !start c:\users\administrator\vimfiles\win\playwav.exe "c:\users\administrator\vimfiles\win\sound_4.wav" 200'
 "执行完毕播放声音
 
 "==========================
@@ -263,6 +278,7 @@ let g:mkdp_browser = 'chrome'
 "    silent exe '!lemonade open 'a:url
 "endfunction
 "let g:mkdp_browserfunc = 'g:Open_browser'
+"let g:mkdp_markdown_css='d:\tmp\bootstrap.css'
 
 "==========================
 "python调试插件REPL插件设定 
@@ -303,7 +319,7 @@ let g:ycm_global_ycm_extra_conf="~\\vimfiles\\plugged\\YouCompleteMe\\.ycm_extra
 "let g:ycm_key_invoke_completion='<c-z>' 
 "设置基于语义补全的快捷键
 let g:ycm_semantic_triggers={
-                      \ 'python,javascript,cs':['re!\w{2}'],
+                      \ 'python,javascript,cs,c':['re!\w{2}'],
                       \ }
 "设置激活自动补全的符号，这里设置输入前两个字符就自动弹出
 highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
@@ -396,7 +412,8 @@ ab ti tab term ipython
 " 快速打开ipython
 ab ap AsyncRun python
 " 异步执行python
-ab dt d:\temp
+ab xbase d:\zhangbin
+ab dtp d:\temp
 "==========================
 "myscript.vim
 "==========================
@@ -453,6 +470,23 @@ function! BrowserOpen(obj)
     endif
 endfunction
 " ]]]
+"
+"搜索vimwiki中的关键字
+noremap <leader>sm  <Esc>:call Vimgrepsm()<CR>
+noremap <leader>sw  <Esc>:call Vimgrepsw()<CR>
+noremap <leader>sa  <Esc>:call Vimgrepsa()<CR>
+function! Vimgrepsm()
+                exec "vimgrep /".input("search what?")."/j ~/vimwiki/diary/*.md" 
+endfunction
+function! Vimgrepsw()
+                exec "vimgrep /".input("search what?")."/j ~/vimwiki/diary/*.wiki" 
+endfunction
+function! Vimgrepsa()
+                exec "vimgrep /".input("search what?")."/j ~/vimwiki/diary/**/*" 
+endfunction
+
+
+
 
 "自动打开文件所在目录
 "" FileExplore: 在文件浏览器中打开当前目录
