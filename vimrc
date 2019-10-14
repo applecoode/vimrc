@@ -69,7 +69,7 @@ filetype on
 filetype indent on
 filetype plugin indent on
 "colorscheme evening "配色方案
-"colorscheme desert
+"colorscheme desert 
 
 set helplang=cn "设置中文帮助
 set history=500 "保留历史记录
@@ -146,6 +146,9 @@ func! CompileRunGcc()
                           exec "wincmd p"
                   endif
           endif
+          if &filetype == 'html'
+                  exec  "!start chrome %"
+          endif
           if &filetype == 'c'
                   exec "AsyncRun gcc % -o %<"
                   exec "copen"
@@ -221,6 +224,7 @@ noremap <BS> :nohl<cr>
 nnoremap <silent><leader>pp :set filetype=python<cr>
 nnoremap <silent><leader>md :set filetype=markdown<cr>
 nnoremap <silent><leader>wd :e d:\zhangbin\doc\strangeword.txt<cr>
+nnoremap <silent><leader>ex :Explore<cr>
 tnoremap <c-n> <c-w>N
 "翻译,前面需要pip install ici
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
@@ -229,6 +233,7 @@ tnoremap <c-n> <c-w>N
 nnoremap <leader>w<leader>s :vimgrep <C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 "for fugitive
 nnoremap <leader>gc :Gcommit <cr>
+nnoremap <leader>gw :Gwrite <cr>
 nnoremap <leader>gr :Gread <cr>
 nnoremap <leader>ga :Git! add % <cr>
 nnoremap <leader>gs :Gstatus <cr>
@@ -268,7 +273,7 @@ command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 "for fugitive Gpush Gfetch
 "linux
 "let g:asyncrun_exit = "silent call system('afplay ~/.vim/notify.wav &')"
-let g:asyncrun_exit = 'silent !start c:\users\administrator\vimfiles\win\playwav.exe "c:\users\administrator\vimfiles\win\sound_4.wav" 200'
+"let g:asyncrun_exit = 'silent !start c:\users\administrator\vimfiles\win\playwav.exe "c:\users\administrator\vimfiles\win\sound_4.wav" 200'
 "执行完毕播放声音
 
 "==========================
@@ -304,7 +309,7 @@ let g:mkdp_browser = 'chrome'
 "    silent exe '!lemonade open 'a:url
 "endfunction
 "let g:mkdp_browserfunc = 'g:Open_browser'
-let g:mkdp_markdown_css='d:\tmp\bootstrap.css'
+"let g:mkdp_markdown_css='d:\tmp\bootstrap.css'
 
 "==========================
 "python调试插件REPL插件设定 
@@ -497,6 +502,23 @@ function! BrowserOpen(obj)
     endif
 endfunction
 " ]]]
+"
+"搜索vimwiki中的关键字
+noremap <leader>sm  <Esc>:call Vimgrepsm()<CR>
+noremap <leader>sw  <Esc>:call Vimgrepsw()<CR>
+noremap <leader>sa  <Esc>:call Vimgrepsa()<CR>
+function! Vimgrepsm()
+                exec "vimgrep /".input("search what?")."/j ~/vimwiki/diary/*.md" 
+endfunction
+function! Vimgrepsw()
+                exec "vimgrep /".input("search what?")."/j ~/vimwiki/diary/*.wiki" 
+endfunction
+function! Vimgrepsa()
+                exec "vimgrep /".input("search what?")."/j ~/vimwiki/diary/**/*" 
+endfunction
+
+
+
 
 "自动打开文件所在目录
 "" FileExplore: 在文件浏览器中打开当前目录
