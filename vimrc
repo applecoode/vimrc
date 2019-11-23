@@ -1,7 +1,7 @@
 "source $VIMRUNTIME/vimrc_example.vim
 source ~\vimfiles\myscript\BufOnly.vim
 "清空buff区
-source ~\vimfiles\myscript\myautoload.vim
+"source ~\vimfiles\myscript\myautoload.vim
 "other window's cursor move
 if has('win32') && has('win64')
         behave mswin
@@ -46,6 +46,7 @@ set wrap "设置自动换行
 "set nowrap "设置不自动换行
 set linebreak "整词换行，与自动换行搭配使用
 "set list "显示制表符
+
 set autochdir "自动设置当前目录为正在编辑的目录
 set hidden "自动隐藏没有保存的缓冲区，切换buffer时不给出保存当前buffer的提示
 set scrolloff=5 "在光标接近底端或顶端时，自动下滚或上滚
@@ -82,7 +83,6 @@ set ai! "设置自动缩进
 set cursorline "启用光标行
 set guicursor+=a:blinkon0 "设置光标不闪烁
 "set fdm=indent "折叠模式
-
 
 "==========================
 "自动执行python
