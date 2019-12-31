@@ -7,7 +7,7 @@ if has('win32') && has('win64')
         behave mswin
         noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
         noremap <f12> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleTransparency', "247,180")<cr>
-        "全屏和透明窗体,需要gvim_fullscreen.dll支持
+        "全屏和透明窗体,需要gvim_fullscreen.dll支持,放在vim安装目录
 endif
 
 set guioptions=
@@ -216,6 +216,9 @@ nnoremap <leader>sc :set spell!<cr>
 "另一个滚屏
 nnoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>
 nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
+nmap <leader>mm 2<leader>w<leader>w
+nmap <leader>mj 2<leader>w<leader>i
+nmap <leader>mi 2<leader>wi
 "==========================
 "ultisnips设定
 "==========================
@@ -343,7 +346,13 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 "let g:vimwiki_list = [{'path': '~/my_diary/', 'path_html': '~/my_diary_html/'},
 "                     \{'path': '~/my_wiki/', 'path_html': '~/my_wiki_html/'}]
 let g:vimwiki_list = [{'path': '~/vimwiki/',
-                          \ 'syntax': 'markdown', 'ext': '.md'}]
+                          \ 'path_html':'~/public_html',
+                          \ 'syntax': 'markdown',
+                          \ 'ext': '.md'},
+                          \ {'path':'~/mmwiki/',
+                          \ 'path_html':'~/public_html',
+                          \ 'syntax':'markdown',
+                          \ 'ext':'.md'}]
 "使用markdown方式记录wiki
 map <Leader>tt <Plug>VimwikiToggleListItem
 "Todo快捷键
@@ -476,13 +485,13 @@ noremap <leader>sm  <Esc>:call Vimgrepsm()<CR>
 noremap <leader>sw  <Esc>:call Vimgrepsw()<CR>
 noremap <leader>sa  <Esc>:call Vimgrepsa()<CR>
 function! Vimgrepsm()
-                exec "vimgrep /".input("search what?")."/j ~/vimwiki/diary/*.md" 
+                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.md" 
 endfunction
 function! Vimgrepsw()
-                exec "vimgrep /".input("search what?")."/j ~/vimwiki/diary/*.wiki" 
+                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.wiki" 
 endfunction
 function! Vimgrepsa()
-                exec "vimgrep /".input("search what?")."/j ~/vimwiki/diary/**/*" 
+                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/**/*" 
 endfunction
 
 
