@@ -3,7 +3,7 @@ set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,chinese,cp936,gbk,gb2312,gb18030
 source $VIMRUNTIME/vimrc_example.vim
-source ~\vimfiles\myscript\myautoload.vim
+exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/myautoload.vim'
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/BufOnly.vim'
 "清空buff区
 "source ~\vimfiles\myscript\myautoload.vim
@@ -219,7 +219,8 @@ nnoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>
 nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
 nmap <leader>mm 2<leader>w<leader>w
 nmap <leader>mj 2<leader>w<leader>i
-nmap <leader>mi 2<leader>wi
+nmap <TagglePreviewleader>mi 2<leader>wi
+noremap <silent><m-h> :call TagglePreview()<cr>
 "==========================
 "ultisnips设定
 "==========================
@@ -528,6 +529,7 @@ let g:lightline = {
     \ }
 set noshowmode
 
+"tmux的esc延迟设置
 if $TMUX !=''
         set ttimeoutlen=20
 elseif &ttimeoutlen > 60 || &ttimeoutlen <= 0
