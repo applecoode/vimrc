@@ -1,3 +1,8 @@
+global !p
+dict_ = {'371400':'山东省德州市','371402':'山东省德州市德城区','371403':'山东省德州市陵城区'}
+endglobal
+
+
 snippet bye "My mail signature"
 Good bye, Sir. Hope to talk to you soon.
 - Arthur, King of Britain
@@ -11,15 +16,11 @@ snippet t2
 <tag>${VISUAL}</tag>
 endsnippet
 
-snippet xtoday
-今天是`dir`
+snippet viml "test" 
+这是第`!v line(".")`行
 endsnippet
 
-snippet xtoday2
-今天是2222`!v indent(".")`
-endsnippet
-
-snippet byebye
+snippet !"bye bye"!
 <tag>${VISUAL:inside text/should/is/g}</tag>
 endsnippet
 
@@ -31,4 +32,18 @@ two is $2
 here is t[0] = `!p snip.rv = t[1]`
 here is t[1] = `!p snip.rv = t[2]`
 snip.makelime is `!p snip.rv = snip.mkline(line="i was a snip line")`
+endsnippet
+
+
+snippet '(37\d{4})' "Description" Ar
+`!p snip.rv=dict_.get(match.group(1),match.group(1))` 
+endsnippet
+
+snippet tshell "Description" b
+dir is `dir`
+endsnippet
+
+snippet tvim "Description" b
+indent is `!v indent(".")`
+line is `!v line(".")`
 endsnippet

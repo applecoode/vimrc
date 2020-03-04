@@ -1,13 +1,21 @@
-"source $VIMRUNTIME/vimrc_example.vim
-source ~\vimfiles\myscript\BufOnly.vim
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,chinese,cp936,gbk,gb2312,gb18030
+source $VIMRUNTIME/vimrc_example.vim
+source ~\vimfiles\myscript\myautoload.vim
+exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/BufOnly.vim'
 "清空buff区
 "source ~\vimfiles\myscript\myautoload.vim
 "other window's cursor move
 if has('win32') && has('win64')
         behave mswin
+        language messages zh_CN.utf-8
         noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
         noremap <f12> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleTransparency', "247,180")<cr>
         "全屏和透明窗体,需要gvim_fullscreen.dll支持,放在vim安装目录
+        let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
+        "windows下指定第三方补全目录
 endif
 
 set guioptions=
@@ -20,15 +28,10 @@ let g:mapleader = " "
 set relativenumber 
 "设置相对行号
 "设置文件的代码形式 utf8
-set encoding=utf-8
-set termencoding=utf-8
-set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,chinese,cp936,gbk,gb2312,gb18030
 "vim的菜单乱码解决
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 "vim提示信息乱码的解决
-language messages zh_CN.utf-8
 filetype on
 filetype indent on
 filetype plugin indent on
@@ -135,12 +138,10 @@ endfunc
 "==========================
 "插件定义
 "==========================
-call plug#begin('~/vimfiles/plugged')
+call plug#begin(fnamemodify($MYVIMRC,":p:h").'/plugged')
 Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } 
-"markdown预览
-"Plug 'scrooloose/nerdtree' "目录树插件
+""markdown预览
 Plug 'jiangmiao/auto-pairs' "自动括号插件
-Plug 'sillybun/vim-repl' "自动括号插件
 Plug 'Valloric/YouCompleteMe' "自动补全插件
 Plug 'vimwiki/vimwiki' "笔记插件
 Plug 'skywind3000/asyncrun.vim' "异步插件
@@ -155,8 +156,9 @@ Plug 'sbdchd/neoformat' "format
 Plug 'easymotion/vim-easymotion' "easymotion
 Plug 'SirVer/ultisnips' " 代码片段
 Plug 'honza/vim-snippets' "各种片段
-Plug 'rakr/vim-one' "主题
-"Plug 'mg979/vim-visual-multi' "多行编辑神器
+Plug 'vim-latex/vim-latex' "latex
+Plug 'altercation/vim-colors-solarized'
+Plug 'itchyny/lightline.vim'
 "-------------------------------
 "各种文本对象
 "-------------------------------
@@ -166,7 +168,6 @@ Plug 'kana/vim-textobj-line' " 一行al il
 Plug 'jceb/vim-textobj-uri' "uri au iu
 Plug 'michaeljsmith/vim-indent-object' "缩进用ai ii aI iI
 Plug 'jeetsukumaran/vim-pythonsense' "python用def class ac ic af if
-"Plug 'mg979/vim-visual-multi' "多行编辑神器
 "Plug 'glts/vim-textobj-comment' "注释文本对象,和下面的键位冲突
 "Plug 'reedes/vim-textobj-sentence' "也是键位冲突,而且不知道怎么用
 "Plug 'wellle/targets.vim' "留着观察
@@ -193,7 +194,6 @@ tnoremap <c-n> <c-w>N
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
 "noremap! <caps lock> <esc>
 "绑定搜索vimwiki diary的主题
-nnoremap <leader>w<leader>s :vimgrep <C-R><C-W>/j ~/vimwiki/diary/*.wiki <cr>
 "for fugitive
 nnoremap <leader>gc :Gcommit <cr>
 nnoremap <leader>gw :Gwrite <cr>
@@ -210,6 +210,7 @@ nnoremap <leader>fl :LeaderfLineAll<cr>
 nnoremap <leader>fc :LeaderfHistoryCmd<cr>
 nnoremap <leader>fs :LeaderfHistorySearch<cr>
 nnoremap <leader>ft :LeaderfBufTagAll<cr>
+nnoremap <leader>fn :exec "LeaderfFile ".fnamemodify($MYVIMRC,":p:h")."\\plugged\\vim-snippets\\"<cr>
 nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
 "设置拼写检查
 nnoremap <leader>sc :set spell!<cr>
@@ -222,12 +223,17 @@ nmap <leader>mi 2<leader>wi
 "==========================
 "ultisnips设定
 "==========================
-let g:UltiSnipsSnippetsDir= '~\vimfiles\UltiSnips'
+let g:UltiSnipsSnippetsDir= fnamemodify($MYVIMRC,":p:h").'/UltiSnips'
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+"==========================
+"vim-latex设定
+"==========================
+let g:tex_flavor='latex'
 
 "==========================
 "leaderF设定
@@ -254,20 +260,7 @@ command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 "==========================
 let g:Lf_ShortcutF = '<leader>ff'
 let g:Lf_ShortcutB = '<leader>fb'
-
-"==========================
-"主题相关设置
-"==========================
-"if (empty($TMUX))
-"  if (has("termguicolors"))
-"    set termguicolors
-"  endif
-"endif
-
-let g:airline_theme='one'
 let g:one_allow_italics = 1 " I love italic for comments
-colorscheme one
-set background=dark " for the dark version
 " set background=light " for the light version
 "==========================
 "markdown-preview.nvim设定
@@ -316,9 +309,7 @@ let g:repl_exit_commands = {
 let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_key_list_select_completion = ['<Down>']
 "防止和ultisnip按键冲突
-let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
-"let g:ycm_server_python_interpreter="C:\\Program Files\\python37\\Python.exe"
-let g:ycm_global_ycm_extra_conf="~\\vimfiles\\plugged\\YouCompleteMe\\.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf=fnamemodify($MYVIMRC,":p:h")."/plugged/YouCompleteMe/.ycm_extra_conf.py"
 "let g:ycm_key_invoke_completion='<c-z>' 
 "设置基于语义补全的快捷键
 let g:ycm_semantic_triggers={
@@ -413,7 +404,7 @@ nnoremap <silent><M-8> :py3file ~\vimfiles\myscript\sql_anytime.py<cr>
 "==========================
 iab xdate <c-r>=strftime("%Y年%m月%d日%H:%M:%S")<cr>
 "插入时间 iab为插入模式下缩写
-ab vimrc :e ~\vimfiles\vimrc
+ab vimrc exec 'e '.fnamemodify($MYVIMRC,":p:h").'/vimrc'
 "直接打开vimrc文件
 ab ner NERDTree
 "让打开目录快一些
@@ -507,3 +498,38 @@ function! FileExplore()
     call BrowserOpen(l:path)
 endfunction
 " ]]]
+
+"
+"===========================
+"各种文件类型设置
+"===========================
+"vue文件类型关联
+autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css sw=2
+
+"===========================
+"主题和各种界面设置
+"===========================
+set laststatus=2
+if !has('gui_running')
+    set t_Co=256
+endif
+set background=dark
+colorscheme solarized
+let g:solarized_termcolors=256
+let g:lightline = {
+    \ 'colorscheme': 'solarized',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste'  ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified'  ]  ]
+    \ },
+    \ 'component_function': {
+    \   'gitbranch': 'fugitive#statusline'
+    \ },
+    \ }
+set noshowmode
+
+if $TMUX !=''
+        set ttimeoutlen=20
+elseif &ttimeoutlen > 60 || &ttimeoutlen <= 0
+        set ttimeoutlen=60
+endif
