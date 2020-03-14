@@ -8,6 +8,8 @@ exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/BufOnly.vim'
 "清空buff区
 "source ~\vimfiles\myscript\myautoload.vim
 "other window's cursor move
+let mapleader = " "
+let g:mapleader = " "
 if has('win32') && has('win64')
         behave mswin
         language messages zh_CN.utf-8
@@ -16,14 +18,13 @@ if has('win32') && has('win64')
         "全屏和透明窗体,需要gvim_fullscreen.dll支持,放在vim安装目录
         let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
         "windows下指定第三方补全目录
+        nnoremap <leader>td :!pandoc -t markdown -w docx --reference-docx=\%userprofile\%/wordtmp.docx -o \%userprofile\%/Desktop/%:t:r.docx %<cr>
 endif
 
 set guioptions=
 "去除界面上所有东西
 set showtabline=1
 "只在需要时显示tabline
-let mapleader = " "
-let g:mapleader = " "
 "修改leaderkey
 set relativenumber 
 "设置相对行号
@@ -176,6 +177,11 @@ call plug#end()
 "==========================
 "键盘映射 kepmap
 "==========================
+
+nnoremap <c-h> <c-w><c-h> 
+nnoremap <c-j> <c-w><c-j>                   
+nnoremap <c-k> <c-w><c-k>                   
+nnoremap <c-l> <c-w><c-l>                    
 "改变当前目录为正在编辑文件的目录
 nnoremap <silent><leader>. :cd %:p:h<cr>
 "nmap <F5> :NERDTreeToggle<cr>
@@ -215,12 +221,12 @@ nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
 "设置拼写检查
 nnoremap <leader>sc :set spell!<cr>
 "另一个滚屏
-nnoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>
+nnoremap <silent><M-u> <esc>:call Tools_PreviousCursor(0)<cr>
 nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
 nmap <leader>mm 2<leader>w<leader>w
 nmap <leader>mj 2<leader>w<leader>i
-nmap <TagglePreviewleader>mi 2<leader>wi
-noremap <silent><m-h> :call TagglePreview()<cr>
+nmap <leader>mi 2<leader>wi
+noremap <silent><m-k> :call TagglePreview()<cr>
 "==========================
 "ultisnips设定
 "==========================
@@ -278,33 +284,6 @@ let g:mkdp_browser = 'chrome'
 "let g:mkdp_markdown_css='d:\tmp\bootstrap.css'
 
 "==========================
-"python调试插件REPL插件设定 
-"==========================
-nnoremap <a-r> :REPLToggle<Cr>
-let g:repl_width = 0
-let g:repl_height = 0
-let g:repl_position = 0
-let g:repl_stayatrepl_when_open = 0
-
-nnoremap <c-h> <c-w><c-h> "精简分屏模式下移动方式快捷键
-nnoremap <c-j> <c-w><c-j>                   
-nnoremap <c-k> <c-w><c-k>                   
-nnoremap <c-l> <c-w><c-l>                    
-
-let g:repl_program = {
-    \ "python": "ipython",
-    \ "default": "bash"
-    \  }
-
-let g:repl_exit_commands = {
-                        \ "ipython":"quit()<cr>",
-                        \ "bash":"exit",
-                        \ "zhs":"exit",
-                        \ "default":"exit",
-                        \ }
-
-
-"==========================
 "ycm插件设定;
 "==========================
 let g:ycm_key_list_previous_completion = ['<Up>']
@@ -331,6 +310,7 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 "                \"html":1,
 "                \}
 "设置补全白名单
+let g:ycm_show_diagnostics_ui = 0
 
 "==========================
 "vimwiki设置
