@@ -508,6 +508,7 @@ let g:lightline = {
     \ },
     \ }
 set noshowmode
+
 "tmux的esc延迟设置
 if $TMUX !=''
         set ttimeoutlen=20
