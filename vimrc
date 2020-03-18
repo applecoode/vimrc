@@ -5,7 +5,6 @@ set fileencodings=ucs-bom,utf-8,chinese,cp936,gbk,gb2312,gb18030
 source $VIMRUNTIME/vimrc_example.vim
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/myautoload.vim'
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/BufOnly.vim'
-"清空buff区
 "source ~\vimfiles\myscript\myautoload.vim
 "other window's cursor move
 if has('win32') && has('win64')
@@ -220,7 +219,7 @@ nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
 nmap <leader>mm 2<leader>w<leader>w
 nmap <leader>mj 2<leader>w<leader>i
 nmap <TagglePreviewleader>mi 2<leader>wi
-noremap <silent><m-h> :call TagglePreview()<cr>
+noremap <silent><m-k> :call TagglePreview()<cr>
 "==========================
 "ultisnips设定
 "==========================
@@ -331,7 +330,7 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 "                \"html":1,
 "                \}
 "设置补全白名单
-
+let g:ycm_show_diagnostics_ui = 0
 "==========================
 "vimwiki设置
 "==========================
