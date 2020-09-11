@@ -18,7 +18,7 @@ if has('win32') && has('win64')
         "全屏和透明窗体,需要gvim_fullscreen.dll支持,放在vim安装目录
         let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
         "windows下指定第三方补全目录
-        nnoremap <leader>td :!pandoc -t markdown -w docx --reference-docx=\%userprofile\%/wordtmp.docx -o \%userprofile\%/Desktop/%:t:r.docx %<cr>
+        nnoremap <leader>td :AsyncRun pandoc -t markdown -w docx --reference-docx=\%userprofile\%/wordtmp.docx -o \%userprofile\%/Desktop/%:t:r.docx %<cr>
 endif
 
 set guioptions=
@@ -91,11 +91,11 @@ set guicursor+=a:blinkon0 "设置光标不闪烁
 "==========================
 "自动执行python
 "==========================
-nnoremap <F9> :call RunPython()<cr>
-nnoremap <F8> :call CompileRunGcc()<cr>
+nnoremap <F9> :call RunProgram()<cr>
+nnoremap <F8> :call RunProgramInPrefix()<cr>
 :noremap <F7> :AsyncRun gcc "%" -o "%<"<cr> 
 
-func! CompileRunGcc()
+func! RunProgramInPrefix()
           exec "w"
           if &filetype == 'markdown' || &filetype == 'vimwiki'
                   exec    "MarkdownPreview"
@@ -123,9 +123,14 @@ func! CompileRunGcc()
                   exec "sleep"
                   exec "AsyncRun %<"
           endif
+          if &filetype == 'go'
+                  exec "AsyncRun go run %"
+                  exec "copen"
+                  exec "wincmd p"
+          endif
 endfunc
 
-func! RunPython()
+func! RunProgram()
         exec "w"
         if &filetype == 'python'
                 exec "!python %"
@@ -133,6 +138,8 @@ func! RunPython()
                 exec "!gcc % -o %<"
                 exec "sleep"
                 exec "!%<"
+        elseif &filetype == 'go'
+                exec "!go run %"
         endif
 endfunc
 
@@ -195,6 +202,7 @@ nnoremap <silent><leader>pp :set filetype=python<cr>
 nnoremap <silent><leader>md :set filetype=markdown<cr>
 nnoremap <silent><leader>wd :e d:\zhangbin\doc\strangeword.txt<cr>
 nnoremap <silent><leader>my :e d:\zhangbin\doc\mothermedical.txt<cr>
+nnoremap <silent><leader>yl :e ~\vimwiki\diary\yulu.md<cr>
 tnoremap <c-n> <c-w>N
 "翻译,前面需要pip install ici
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
@@ -218,11 +226,14 @@ nnoremap <leader>fs :LeaderfHistorySearch<cr>
 nnoremap <leader>ft :LeaderfBufTagAll<cr>
 nnoremap <leader>fn :exec "LeaderfFile ".fnamemodify($MYVIMRC,":p:h")."\\plugged\\vim-snippets\\"<cr>
 nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
+nnoremap <leader>dl :e ~\vimwiki\diary\fitness.md<cr>
 "设置拼写检查
 nnoremap <leader>sc :set spell!<cr>
 "另一个滚屏
-nnoremap <silent><M-u> <esc>:call Tools_PreviousCursor(0)<cr>
+nnoremap <M-u> :call Tools_PreviousCursor(0)<cr>
+inoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>a
 nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
+inoremap <M-d> <esc>:call Tools_PreviousCursor(1)<cr>a
 nmap <leader>mm 2<leader>w<leader>w
 nmap <leader>mj 2<leader>w<leader>i
 nmap <leader>mi 2<leader>wi
@@ -390,10 +401,12 @@ ab vimrc exec 'e '.fnamemodify($MYVIMRC,":p:h").'/vimrc'
 ab ner NERDTree
 "让打开目录快一些
 ab ti tab term ipython
+ab vi vert term ipython
 " 快速打开ipython
 ab ap AsyncRun python
 " 异步执行python
 ab xbase d:\zhangbin
+ab xstd d:\zhangbin\code\mypractice
 ab dtp d:\temp
 "==========================
 "myscript.vim
@@ -486,7 +499,8 @@ endfunction
 "===========================
 "vue文件类型关联
 autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css sw=2
-
+autocmd BufRead,BufNewFile *.html setlocal  sw=2
+autocmd BufRead,BufNewFile *.go setlocal  sw=4
 "===========================
 "主题和各种界面设置
 "===========================

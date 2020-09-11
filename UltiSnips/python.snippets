@@ -3,9 +3,6 @@ if __name__ == '__main__':
 	
 endsnippet
 
-snippet wow
-${1:Text}`!p snip.rv = (75-2*len(t[1]))*' '+t[1].upper()`
-endsnippet
 
 snippet clas
 	class ${1:class_name}:
@@ -13,4 +10,12 @@ snippet clas
 		${0:${VISUAL}}
 endsnippet
 
+snippet flask "Description" b
+from flask import Flask,render_template,redirect,url_for,g,session,jsonify,request
+from flask_sqlalchemy import SQLAlchemy
 
+app = Flask(__name__)
+
+@app.route('/')
+    return render_template('index.html')
+endsnippet
