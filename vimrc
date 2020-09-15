@@ -5,9 +5,6 @@ set fileencodings=ucs-bom,utf-8,chinese,cp936,gbk,gb2312,gb18030
 source $VIMRUNTIME/vimrc_example.vim
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/myautoload.vim'
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/BufOnly.vim'
-"清空buff区
-"source ~\vimfiles\myscript\myautoload.vim
-"other window's cursor move
 let mapleader = " "
 let g:mapleader = " "
 if has('win32') && has('win64')
@@ -20,15 +17,12 @@ if has('win32') && has('win64')
         "windows下指定第三方补全目录
         nnoremap <leader>td :AsyncRun pandoc -t markdown -w docx --reference-docx=\%userprofile\%/wordtmp.docx -o \%userprofile\%/Desktop/%:t:r.docx %<cr>
 endif
-
 set guioptions=
 "去除界面上所有东西
 set showtabline=1
 "只在需要时显示tabline
-"修改leaderkey
 set relativenumber 
 "设置相对行号
-"设置文件的代码形式 utf8
 "vim的菜单乱码解决
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
@@ -89,59 +83,11 @@ set guicursor+=a:blinkon0 "设置光标不闪烁
 "set fdm=indent "折叠模式
 
 "==========================
-"自动执行python
+"自动执行python,go,md
 "==========================
 nnoremap <F9> :call RunProgram()<cr>
 nnoremap <F8> :call RunProgramInPrefix()<cr>
 :noremap <F7> :AsyncRun gcc "%" -o "%<"<cr> 
-
-func! RunProgramInPrefix()
-          exec "w"
-          if &filetype == 'markdown' || &filetype == 'vimwiki'
-                  exec    "MarkdownPreview"
-          endif
-          if &filetype == 'python'
-                  if search("@profile")
-                          exec "AsyncRun kernprof -l -v %"
-                          exec "copen"
-                          exec "wincmd p"
-                  elseif search("set_trace()")
-                          exec "!python %"
-                  else
-                          exec "AsyncRun -raw python %"
-                          exec "copen"
-                          exec "wincmd p"
-                  endif
-          endif
-          if &filetype == 'html'
-                  exec  "!start chrome %"
-          endif
-          if &filetype == 'c'
-                  exec "AsyncRun gcc % -o %<"
-                  exec "copen"
-                  exec "wincmd p"
-                  exec "sleep"
-                  exec "AsyncRun %<"
-          endif
-          if &filetype == 'go'
-                  exec "AsyncRun go run %"
-                  exec "copen"
-                  exec "wincmd p"
-          endif
-endfunc
-
-func! RunProgram()
-        exec "w"
-        if &filetype == 'python'
-                exec "!python %"
-        elseif &filetype == 'c'
-                exec "!gcc % -o %<"
-                exec "sleep"
-                exec "!%<"
-        elseif &filetype == 'go'
-                exec "!go run %"
-        endif
-endfunc
 
 "==========================
 "插件定义
@@ -346,13 +292,6 @@ let g:vimwiki_table_mappings = 0
 "==========================
 nnoremap <silent><M-c> :call TaggleQuickWin()<cr>
 inoremap <silent><M-c> <esc>:call TaggleQuickWin()<cr>
-func! TaggleQuickWin()
-        if getqflist({'winid':1}).winid
-                exec "cclose"
-        else
-                exec "copen"
-        endif
-endfunction
 "绑定关闭quickfix窗口快捷键
 nnoremap <M-o> :pclose<cr>
 inoremap <M-o> <esc>:pclose<cr>a
@@ -365,17 +304,6 @@ let g:ycm_add_preview_to_completeopt=0
 set completeopt=menu,menuone
 "设置默认不开启proview窗口
 nnoremap <M-s> :call Switchpreview()<cr>
-func! Switchpreview()
-  if g:ycm_add_preview_to_completeopt==1
-    set completeopt=menu,menuone
-    let g:ycm_add_preview_to_completeopt=0 
-    echo 'add preview to 0'
-  else
-    set completeopt=preview,menuone
-    let g:ycm_add_preview_to_completeopt=1
-    echo 'add preview to 1'
-  endif
-endfunction
 "切换补ycm全时是否出现preview窗口
 nnoremap <leader>cc "*yiw
 "为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
@@ -418,82 +346,23 @@ nnoremap <F7> :call test#testecho() <cr>
 "==========================
 "other function
 "==========================
-" InitGitignore: 个人 gitignore 默认配置
-" [[[
+"git ignore配置
 command! InitGitignore call InitGitignore()
 au BufRead,BufNewFile *.gitignore		set filetype=gitignore
 autocmd BufNewFile .gitignore exec "call InitGitignore()"
-function! InitGitignore()
-    if &filetype ==# 'gitignore'
-        let s:ignore = [
-                    \'test.*', 'tmp.*',
-                    \'*~','*.swp','*.un',
-                    \ '.tags', '*.pyc', '*.o', '*.out', '*.log',
-                    \ '.idea/', '/.idea',
-                    \ 'build/',
-                    \ '__pycache__'
-                    \]
-        let s:lines = line('$')
-        normal O
-        call append(0, s:ignore)
-    endif
-endfunction
-" ]]]
 
 " BrowserOpen: 打开文件或网址
-" [[[
 command! -nargs=+ BrowserOpen call BrowserOpen(<q-args>)
-function! BrowserOpen(obj)
-    " windows(mingw)
-    if has('win32') || has('win64') || has('win32unix')
-        let cmd = 'rundll32 url.dll,FileProtocolHandler ' . a:obj
-    elseif has('mac') || has('macunix') || has('gui_macvim') || system('uname') =~? '^darwin'
-        let cmd = 'open ' . a:obj
-    elseif executable('xdg-open')
-        let cmd = 'xdg-open ' . a:obj
-    else
-        echoerr "No browser found, please contact the developer."
-    endif
 
-    if exists('*jobstart')
-        call jobstart(cmd)
-    elseif exists('*job_start')
-        exec '!start '  . cmd
-    else
-        call system(cmd)
-    endif
-endfunction
-" ]]]
-"
 "搜索vimwiki中的关键字
 noremap <leader>sm  <Esc>:call Vimgrepsm()<CR>
 noremap <leader>sw  <Esc>:call Vimgrepsw()<CR>
 noremap <leader>sa  <Esc>:call Vimgrepsa()<CR>
-function! Vimgrepsm()
-                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.md" 
-endfunction
-function! Vimgrepsw()
-                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.wiki" 
-endfunction
-function! Vimgrepsa()
-                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/**/*" 
-endfunction
-
-
-
 
 "自动打开文件所在目录
-"" FileExplore: 在文件浏览器中打开当前目录
-" [[[
 noremap <silent> <F2> <Esc>:call FileExplore()<CR>
 command! FileExplore call FileExplore()
-function! FileExplore()
-    let l:path = expand(getcwd())
-    call BrowserOpen(l:path)
-endfunction
-" ]]]
 
-"
 "===========================
 "各种文件类型设置
 "===========================
