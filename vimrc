@@ -5,8 +5,8 @@ set fileencodings=ucs-bom,utf-8,chinese,cp936,gbk,gb2312,gb18030
 source $VIMRUNTIME/vimrc_example.vim
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/myautoload.vim'
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/BufOnly.vim'
-"source ~\vimfiles\myscript\myautoload.vim
-"other window's cursor move
+let mapleader = " "
+let g:mapleader = " "
 if has('win32') && has('win64')
         behave mswin
         language messages zh_CN.utf-8
@@ -15,18 +15,14 @@ if has('win32') && has('win64')
         "全屏和透明窗体,需要gvim_fullscreen.dll支持,放在vim安装目录
         let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
         "windows下指定第三方补全目录
+        nnoremap <leader>td :AsyncRun pandoc -t markdown -w docx --reference-docx=\%userprofile\%/wordtmp.docx -o \%userprofile\%/Desktop/%:t:r.docx %<cr>
 endif
-
 set guioptions=
 "去除界面上所有东西
 set showtabline=1
 "只在需要时显示tabline
-let mapleader = " "
-let g:mapleader = " "
-"修改leaderkey
 set relativenumber 
 "设置相对行号
-"设置文件的代码形式 utf8
 "vim的菜单乱码解决
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
@@ -87,55 +83,11 @@ set guicursor+=a:blinkon0 "设置光标不闪烁
 "set fdm=indent "折叠模式
 
 "==========================
-"自动执行python
+"自动执行python,go,md
 "==========================
-nnoremap <F9> :call RunPython()<cr>
-nnoremap <F8> :call CompileRunGcc()<cr>
-:noremap <F7> :AsyncRun go run "%"<cr> 
-
-func! CompileRunGcc()
-          exec "w"
-          if &filetype == 'markdown' || &filetype == 'vimwiki'
-                  exec    "MarkdownPreview"
-          endif
-          if &filetype == 'python'
-                  if search("@profile")
-                          exec "AsyncRun kernprof -l -v %"
-                          exec "copen"
-                          exec "wincmd p"
-                  elseif search("set_trace()")
-                          exec "!python %"
-                  else
-                          exec "AsyncRun -raw python %"
-                          exec "copen"
-                          exec "wincmd p"
-                  endif
-          endif
-          if &filetype == 'html'
-                  exec  "!start chrome %"
-          endif
-          if &filetype == 'c'
-                  exec "AsyncRun gcc % -o %<"
-                  exec "copen"
-                  exec "wincmd p"
-                  exec "sleep"
-                  exec "AsyncRun %<"
-          endif
-endfunc
-
-func! RunPython()
-        exec "w"
-        if &filetype == 'python'
-                exec "!python %"
-        elseif &filetype == 'c'
-                exec "!gcc % -o %<"
-                exec "sleep"
-                exec "!%<"
-        elseif &filetype == 'go'
-                exec "!go run %"
-        endif
-endfunc
-
+nnoremap <F9> :call RunProgram()<cr>
+nnoremap <F8> :call RunProgramInPrefix()<cr>
+:noremap <F7> :AsyncRun gcc "%" -o "%<"<cr> 
 "==========================
 "插件定义
 "==========================
@@ -177,6 +129,11 @@ call plug#end()
 "==========================
 "键盘映射 kepmap
 "==========================
+
+nnoremap <c-h> <c-w><c-h> 
+nnoremap <c-j> <c-w><c-j>                   
+nnoremap <c-k> <c-w><c-k>                   
+nnoremap <c-l> <c-w><c-l>                    
 "改变当前目录为正在编辑文件的目录
 nnoremap <silent><leader>. :cd %:p:h<cr>
 "nmap <F5> :NERDTreeToggle<cr>
@@ -190,6 +147,7 @@ nnoremap <silent><leader>pp :set filetype=python<cr>
 nnoremap <silent><leader>md :set filetype=markdown<cr>
 nnoremap <silent><leader>wd :e d:\zhangbin\doc\strangeword.txt<cr>
 nnoremap <silent><leader>my :e d:\zhangbin\doc\mothermedical.txt<cr>
+nnoremap <silent><leader>yl :e ~\vimwiki\diary\yulu.md<cr>
 tnoremap <c-n> <c-w>N
 "翻译,前面需要pip install ici
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
@@ -213,16 +171,18 @@ nnoremap <leader>fs :LeaderfHistorySearch<cr>
 nnoremap <leader>ft :LeaderfBufTagAll<cr>
 nnoremap <leader>fn :exec "LeaderfFile ".fnamemodify($MYVIMRC,":p:h")."\\plugged\\vim-snippets\\"<cr>
 nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
+nnoremap <leader>dl :e ~\vimwiki\diary\fitness.md<cr>
 "设置拼写检查
 nnoremap <leader>sc :set spell!<cr>
 "另一个滚屏
-nnoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>
+nnoremap <M-u> :call Tools_PreviousCursor(0)<cr>
+inoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>a
 nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
+inoremap <M-d> <esc>:call Tools_PreviousCursor(1)<cr>a
 nmap <leader>mm 2<leader>w<leader>w
+nmap <leader>mj 2<leader>w<leader>i
 nmap <leader>mi 2<leader>wi
 noremap <silent><m-k> :call TagglePreview()<cr>
-nnoremap <silent><leader>ss :call Sent_term()<cr>
-xnoremap <expr> <silent><leader>ss Sent_term()
 "==========================
 "ultisnips设定
 "==========================
@@ -280,33 +240,6 @@ let g:mkdp_browser = 'chrome'
 "let g:mkdp_markdown_css='d:\tmp\bootstrap.css'
 
 "==========================
-"python调试插件REPL插件设定 
-"==========================
-nnoremap <a-r> :REPLToggle<Cr>
-let g:repl_width = 0
-let g:repl_height = 0
-let g:repl_position = 0
-let g:repl_stayatrepl_when_open = 0
-
-nnoremap <c-h> <c-w><c-h> "精简分屏模式下移动方式快捷键
-nnoremap <c-j> <c-w><c-j>                   
-nnoremap <c-k> <c-w><c-k>                   
-nnoremap <c-l> <c-w><c-l>                    
-
-let g:repl_program = {
-    \ "python": "ipython",
-    \ "default": "bash"
-    \  }
-
-let g:repl_exit_commands = {
-                        \ "ipython":"quit()<cr>",
-                        \ "bash":"exit",
-                        \ "zhs":"exit",
-                        \ "default":"exit",
-                        \ }
-
-
-"==========================
 "ycm插件设定;
 "==========================
 let g:ycm_key_list_previous_completion = ['<Up>']
@@ -357,13 +290,6 @@ let g:vimwiki_table_mappings = 0
 "==========================
 nnoremap <silent><M-c> :call TaggleQuickWin()<cr>
 inoremap <silent><M-c> <esc>:call TaggleQuickWin()<cr>
-func! TaggleQuickWin()
-        if getqflist({'winid':1}).winid
-                exec "cclose"
-        else
-                exec "copen"
-        endif
-endfunction
 "绑定关闭quickfix窗口快捷键
 nnoremap <M-o> :pclose<cr>
 inoremap <M-o> <esc>:pclose<cr>a
@@ -376,17 +302,6 @@ let g:ycm_add_preview_to_completeopt=0
 set completeopt=menu,menuone
 "设置默认不开启proview窗口
 nnoremap <M-s> :call Switchpreview()<cr>
-func! Switchpreview()
-  if g:ycm_add_preview_to_completeopt==1
-    set completeopt=menu,menuone
-    let g:ycm_add_preview_to_completeopt=0 
-    echo 'add preview to 0'
-  else
-    set completeopt=preview,menuone
-    let g:ycm_add_preview_to_completeopt=1
-    echo 'add preview to 1'
-  endif
-endfunction
 "切换补ycm全时是否出现preview窗口
 nnoremap <leader>cc "*yiw
 "为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
@@ -412,10 +327,12 @@ ab vimrc exec 'e '.fnamemodify($MYVIMRC,":p:h").'/vimrc'
 ab ner NERDTree
 "让打开目录快一些
 ab ti tab term ipython
+ab vi vert term ipython
 " 快速打开ipython
 ab ap AsyncRun python
 " 异步执行python
 ab xbase d:\zhangbin
+ab xstd d:\zhangbin\code\mypractice
 ab dtp d:\temp
 "==========================
 "myscript.vim
@@ -427,88 +344,30 @@ nnoremap <F7> :call test#testecho() <cr>
 "==========================
 "other function
 "==========================
-" InitGitignore: 个人 gitignore 默认配置
-" [[[
+"git ignore配置
 command! InitGitignore call InitGitignore()
 au BufRead,BufNewFile *.gitignore		set filetype=gitignore
 autocmd BufNewFile .gitignore exec "call InitGitignore()"
-function! InitGitignore()
-        if &filetype ==# 'gitignore'
-                let s:ignore = [
-                                        \'test.*', 'tmp.*',
-                                        \'*~','*.swp','*.un',
-                                        \ '.tags', '*.pyc', '*.o', '*.out', '*.log',
-                                        \ '.idea/', '/.idea',
-                                        \ 'build/',
-                                        \ '__pycache__'
-                                        \]
-                let s:lines = line('$')
-                normal O
-                call append(0, s:ignore)
-        endif
-endfunction
-" ]]]
 
 " BrowserOpen: 打开文件或网址
-" [[[
 command! -nargs=+ BrowserOpen call BrowserOpen(<q-args>)
-function! BrowserOpen(obj)
-        " windows(mingw)
-        if has('win32') || has('win64') || has('win32unix')
-                let cmd = 'rundll32 url.dll,FileProtocolHandler ' . a:obj
-        elseif has('mac') || has('macunix') || has('gui_macvim') || system('uname') =~? '^darwin'
-                let cmd = 'open ' . a:obj
-        elseif executable('xdg-open')
-                let cmd = 'xdg-open ' . a:obj
-        else
-                echoerr "No browser found, please contact the developer."
-        endif
 
-        if exists('*jobstart')
-                call jobstart(cmd)
-        elseif exists('*job_start')
-                exec '!start '  . cmd
-        else
-                call system(cmd)
-        endif
-endfunction
-" ]]]
-"
 "搜索vimwiki中的关键字
 noremap <leader>sm  <Esc>:call Vimgrepsm()<CR>
 noremap <leader>sw  <Esc>:call Vimgrepsw()<CR>
 noremap <leader>sa  <Esc>:call Vimgrepsa()<CR>
-function! Vimgrepsm()
-        exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.md" 
-endfunction
-function! Vimgrepsw()
-        exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.wiki" 
-endfunction
-function! Vimgrepsa()
-        exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/**/*" 
-endfunction
-
-
-
 
 "自动打开文件所在目录
-"" FileExplore: 在文件浏览器中打开当前目录
-" [[[
 noremap <silent> <F2> <Esc>:call FileExplore()<CR>
 command! FileExplore call FileExplore()
-function! FileExplore()
-        let l:path = expand(getcwd())
-        call BrowserOpen(l:path)
-endfunction
-" ]]]
 
-"
 "===========================
 "各种文件类型设置
 "===========================
 "vue文件类型关联
 autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css sw=2
-autocmd BufRead,BufNewFile *.go setlocal sw=4
+autocmd BufRead,BufNewFile *.html setlocal  sw=2
+autocmd BufRead,BufNewFile *.go setlocal  sw=4
 "===========================
 "主题和各种界面设置
 "===========================
