@@ -91,7 +91,7 @@ set guicursor+=a:blinkon0 "设置光标不闪烁
 "==========================
 nnoremap <F9> :call RunPython()<cr>
 nnoremap <F8> :call CompileRunGcc()<cr>
-:noremap <F7> :AsyncRun gcc "%" -o "%<"<cr> 
+:noremap <F7> :AsyncRun go run "%"<cr> 
 
 func! CompileRunGcc()
           exec "w"
@@ -131,6 +131,8 @@ func! RunPython()
                 exec "!gcc % -o %<"
                 exec "sleep"
                 exec "!%<"
+        elseif &filetype == 'go'
+                exec "!go run %"
         endif
 endfunc
 
@@ -217,9 +219,10 @@ nnoremap <leader>sc :set spell!<cr>
 nnoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>
 nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
 nmap <leader>mm 2<leader>w<leader>w
-nmap <leader>mj 2<leader>w<leader>i
-nmap <TagglePreviewleader>mi 2<leader>wi
+nmap <leader>mi 2<leader>wi
 noremap <silent><m-k> :call TagglePreview()<cr>
+nnoremap <silent><leader>ss :call Sent_term()<cr>
+xnoremap <expr> <silent><leader>ss Sent_term()
 "==========================
 "ultisnips设定
 "==========================
@@ -313,7 +316,7 @@ let g:ycm_global_ycm_extra_conf=fnamemodify($MYVIMRC,":p:h")."/plugged/YouComple
 "let g:ycm_key_invoke_completion='<c-z>' 
 "设置基于语义补全的快捷键
 let g:ycm_semantic_triggers={
-                      \ 'python,javascript,cs,c':['re!\w{2}'],
+                      \ 'python,javascript,cs,c,go':['re!\w{2}'],
                       \ }
 "设置激活自动补全的符号，这里设置输入前两个字符就自动弹出
 highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
@@ -430,19 +433,19 @@ command! InitGitignore call InitGitignore()
 au BufRead,BufNewFile *.gitignore		set filetype=gitignore
 autocmd BufNewFile .gitignore exec "call InitGitignore()"
 function! InitGitignore()
-    if &filetype ==# 'gitignore'
-        let s:ignore = [
-                    \'test.*', 'tmp.*',
-                    \'*~','*.swp','*.un',
-                    \ '.tags', '*.pyc', '*.o', '*.out', '*.log',
-                    \ '.idea/', '/.idea',
-                    \ 'build/',
-                    \ '__pycache__'
-                    \]
-        let s:lines = line('$')
-        normal O
-        call append(0, s:ignore)
-    endif
+        if &filetype ==# 'gitignore'
+                let s:ignore = [
+                                        \'test.*', 'tmp.*',
+                                        \'*~','*.swp','*.un',
+                                        \ '.tags', '*.pyc', '*.o', '*.out', '*.log',
+                                        \ '.idea/', '/.idea',
+                                        \ 'build/',
+                                        \ '__pycache__'
+                                        \]
+                let s:lines = line('$')
+                normal O
+                call append(0, s:ignore)
+        endif
 endfunction
 " ]]]
 
@@ -450,24 +453,24 @@ endfunction
 " [[[
 command! -nargs=+ BrowserOpen call BrowserOpen(<q-args>)
 function! BrowserOpen(obj)
-    " windows(mingw)
-    if has('win32') || has('win64') || has('win32unix')
-        let cmd = 'rundll32 url.dll,FileProtocolHandler ' . a:obj
-    elseif has('mac') || has('macunix') || has('gui_macvim') || system('uname') =~? '^darwin'
-        let cmd = 'open ' . a:obj
-    elseif executable('xdg-open')
-        let cmd = 'xdg-open ' . a:obj
-    else
-        echoerr "No browser found, please contact the developer."
-    endif
+        " windows(mingw)
+        if has('win32') || has('win64') || has('win32unix')
+                let cmd = 'rundll32 url.dll,FileProtocolHandler ' . a:obj
+        elseif has('mac') || has('macunix') || has('gui_macvim') || system('uname') =~? '^darwin'
+                let cmd = 'open ' . a:obj
+        elseif executable('xdg-open')
+                let cmd = 'xdg-open ' . a:obj
+        else
+                echoerr "No browser found, please contact the developer."
+        endif
 
-    if exists('*jobstart')
-        call jobstart(cmd)
-    elseif exists('*job_start')
-        exec '!start '  . cmd
-    else
-        call system(cmd)
-    endif
+        if exists('*jobstart')
+                call jobstart(cmd)
+        elseif exists('*job_start')
+                exec '!start '  . cmd
+        else
+                call system(cmd)
+        endif
 endfunction
 " ]]]
 "
@@ -476,13 +479,13 @@ noremap <leader>sm  <Esc>:call Vimgrepsm()<CR>
 noremap <leader>sw  <Esc>:call Vimgrepsw()<CR>
 noremap <leader>sa  <Esc>:call Vimgrepsa()<CR>
 function! Vimgrepsm()
-                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.md" 
+        exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.md" 
 endfunction
 function! Vimgrepsw()
-                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.wiki" 
+        exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.wiki" 
 endfunction
 function! Vimgrepsa()
-                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/**/*" 
+        exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/**/*" 
 endfunction
 
 
@@ -494,8 +497,8 @@ endfunction
 noremap <silent> <F2> <Esc>:call FileExplore()<CR>
 command! FileExplore call FileExplore()
 function! FileExplore()
-    let l:path = expand(getcwd())
-    call BrowserOpen(l:path)
+        let l:path = expand(getcwd())
+        call BrowserOpen(l:path)
 endfunction
 " ]]]
 
@@ -505,7 +508,7 @@ endfunction
 "===========================
 "vue文件类型关联
 autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css sw=2
-
+autocmd BufRead,BufNewFile *.go setlocal sw=4
 "===========================
 "主题和各种界面设置
 "===========================
