@@ -167,7 +167,7 @@ nnoremap <leader>fs :LeaderfHistorySearch<cr>
 nnoremap <leader>ft :LeaderfBufTagAll<cr>
 nnoremap <leader>fn :exec "LeaderfFile ".fnamemodify($MYVIMRC,":p:h")."\\plugged\\vim-snippets\\"<cr>
 nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
-nnoremap <leader>dl :e ~\vimwiki\diary\fitness.md<cr>
+nnoremap <leader>dl :e ~\vimwiki\diary\fitness.mkd<cr>
 "设置拼写检查
 nnoremap <leader>sc :set spell!<cr>
 "滚屏
@@ -175,6 +175,9 @@ nnoremap <M-u> :call Tools_PreviousCursor(0)<cr>
 inoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>a
 nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
 inoremap <M-d> <esc>:call Tools_PreviousCursor(1)<cr>a
+"term发信息
+nnoremap <silent><leader>ss :call Sent_term()<cr>
+xnoremap <expr> <silent><leader>ss Sent_term()
 "淼淼的日记
 nmap <leader>mm 2<leader>w<leader>w
 nmap <leader>mj 2<leader>w<leader>i
