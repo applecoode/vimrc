@@ -88,7 +88,6 @@ set guicursor+=a:blinkon0 "设置光标不闪烁
 nnoremap <F9> :call RunProgram()<cr>
 nnoremap <F8> :call RunProgramInPrefix()<cr>
 :noremap <F7> :AsyncRun gcc "%" -o "%<"<cr> 
-
 "==========================
 "插件定义
 "==========================
@@ -248,7 +247,7 @@ let g:ycm_global_ycm_extra_conf=fnamemodify($MYVIMRC,":p:h")."/plugged/YouComple
 "let g:ycm_key_invoke_completion='<c-z>' 
 "设置基于语义补全的快捷键
 let g:ycm_semantic_triggers={
-                      \ 'python,javascript,cs,c':['re!\w{2}'],
+                      \ 'python,javascript,cs,c,go':['re!\w{2}'],
                       \ }
 "设置激活自动补全的符号，这里设置输入前两个字符就自动弹出
 highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
@@ -266,7 +265,6 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 "                \}
 "设置补全白名单
 let g:ycm_show_diagnostics_ui = 0
-
 "==========================
 "vimwiki设置
 "==========================

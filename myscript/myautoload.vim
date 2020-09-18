@@ -39,6 +39,32 @@ fun! TagglePreview()
     endtry
 endf
 
+"自动发送到term窗口
+func! Sent_term()
+   for i in tabpagebuflist()
+       if match(bufname(i),'!') == 0
+           let s:my_n = i
+           break
+       endif
+   endfor
+   let currentmode = mode()
+   if currentmode == 'n'
+     exec "normal yy"
+     call term_sendkeys(s:my_n,@")
+     call term_wait(s:my_n)
+     call term_sendkeys(s:my_n,"\<cr>")
+   endif
+   if currentmode == 'V'
+     echo 'v'
+     '<,'> yank
+     call term_sendkeys(s:my_n,@")
+     call term_wait(s:my_n)
+     call term_sendkeys(s:my_n,"\<cr>")
+   endif
+   call term_wait(s:my_n)
+   call term_sendkeys(s:my_n,"\<cr>")
+endf
+
 "搜索笔记
 function! Vimgrepsm()
                 exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.md" 
