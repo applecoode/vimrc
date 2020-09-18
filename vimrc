@@ -93,8 +93,7 @@ nnoremap <F8> :call RunProgramInPrefix()<cr>
 "插件定义
 "==========================
 call plug#begin(fnamemodify($MYVIMRC,":p:h").'/plugged')
-Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } 
-""markdown预览
+Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } "markdown预览
 Plug 'jiangmiao/auto-pairs' "自动括号插件
 Plug 'Valloric/YouCompleteMe' "自动补全插件
 Plug 'vimwiki/vimwiki' "笔记插件
@@ -130,7 +129,6 @@ call plug#end()
 "==========================
 "键盘映射 kepmap
 "==========================
-
 nnoremap <c-h> <c-w><c-h> 
 nnoremap <c-j> <c-w><c-j>                   
 nnoremap <c-k> <c-w><c-k>                   
@@ -152,8 +150,6 @@ nnoremap <silent><leader>yl :e ~\vimwiki\diary\yulu.md<cr>
 tnoremap <c-n> <c-w>N
 "翻译,前面需要pip install ici
 "nnoremap <leader>y :!ici <C-R><C-W><CR>
-"noremap! <caps lock> <esc>
-"绑定搜索vimwiki diary的主题
 "for fugitive
 nnoremap <leader>gc :Gcommit <cr>
 nnoremap <leader>gw :Gwrite <cr>
@@ -175,14 +171,16 @@ nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
 nnoremap <leader>dl :e ~\vimwiki\diary\fitness.md<cr>
 "设置拼写检查
 nnoremap <leader>sc :set spell!<cr>
-"另一个滚屏
+"滚屏
 nnoremap <M-u> :call Tools_PreviousCursor(0)<cr>
 inoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>a
 nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
 inoremap <M-d> <esc>:call Tools_PreviousCursor(1)<cr>a
+"淼淼的日记
 nmap <leader>mm 2<leader>w<leader>w
 nmap <leader>mj 2<leader>w<leader>i
 nmap <leader>mi 2<leader>wi
+"自动显示函数帮助，基于YCM
 noremap <silent><m-k> :call TagglePreview()<cr>
 "==========================
 "ultisnips设定
