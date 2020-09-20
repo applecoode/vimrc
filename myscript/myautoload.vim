@@ -39,6 +39,21 @@ fun! TagglePreview()
     endtry
 endf
 
+"visual模式下获取选择文本
+function! s:get_visual_selection()
+    "let [line_start, column_start] = getpos("'<")[1:2]
+    let [line_start, column_start] = getpos("v")[1:2]
+    "let [line_end, column_end] = getpos("'>")[1:2]
+    let [line_end, column_end] = getpos(".")[1:2]
+    let lines = getline(line_start, line_end)
+    if len(lines) == 0
+        return ''
+    endif
+    "let lines[-1] = lines[-1][: column_end - 2]
+    "let lines[0] = lines[0][column_start - 1:]
+    return join(lines, "\n")
+endfunction
+
 "自动发送到term窗口
 func! Sent_term()
    for i in tabpagebuflist()
@@ -55,10 +70,10 @@ func! Sent_term()
      call term_sendkeys(s:my_n,"\<cr>")
    endif
    if currentmode == 'V'
-     echo 'v'
-     '<,'> yank
-     call term_sendkeys(s:my_n,@")
+     let s:vselected = s:get_visual_selection()
+     call term_sendkeys(s:my_n,s:vselected)
      call term_wait(s:my_n)
+     call term_sendkeys(s:my_n,"\<cr>")
      call term_sendkeys(s:my_n,"\<cr>")
    endif
    call term_wait(s:my_n)
