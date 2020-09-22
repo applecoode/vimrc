@@ -185,6 +185,7 @@ nmap <leader>mi 2<leader>wi
 "自动显示函数帮助，基于YCM
 noremap <silent><m-k> :call TagglePreview()<cr>
 nnoremap <silent><leader>ss :call Sent_term()<cr>
+nnoremap <silent><leader><cr> :call Sent_cr()<cr>
 xnoremap <expr> <silent><leader>ss Sent_term()
 "==========================
 "ultisnips设定
