@@ -97,8 +97,8 @@ Plug 'jiangmiao/auto-pairs' "自动括号插件
 Plug 'Valloric/YouCompleteMe' "自动补全插件
 Plug 'vimwiki/vimwiki' "笔记插件
 Plug 'skywind3000/asyncrun.vim' "异步插件
-Plug 'vim-airline/vim-airline' "底部美化
-Plug 'vim-airline/vim-airline-themes' "美化主题
+"Plug 'vim-airline/vim-airline' "底部美化
+"Plug 'vim-airline/vim-airline-themes' "美化主题
 Plug 'mattn/emmet-vim' " html补全插件 c-y,
 Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
 Plug 'tpope/vim-fugitive' " git命令嵌入vim G
@@ -168,7 +168,7 @@ nnoremap <leader>fs :LeaderfHistorySearch<cr>
 nnoremap <leader>ft :LeaderfBufTagAll<cr>
 nnoremap <leader>fn :exec "LeaderfFile ".fnamemodify($MYVIMRC,":p:h")."\\plugged\\vim-snippets\\"<cr>
 nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
-nnoremap <leader>dl :e ~\vimwiki\diary\fitness.md<cr>
+nnoremap <leader>dl :e ~\vimwiki\diary\fitness.mkd<cr>
 "设置拼写检查
 nnoremap <leader>sc :set spell!<cr>
 "滚屏
@@ -176,6 +176,9 @@ nnoremap <M-u> :call Tools_PreviousCursor(0)<cr>
 inoremap <M-u> <esc>:call Tools_PreviousCursor(0)<cr>a
 nnoremap <M-d> :call Tools_PreviousCursor(1)<cr>
 inoremap <M-d> <esc>:call Tools_PreviousCursor(1)<cr>a
+"term发信息
+nnoremap <silent><leader>ss :call Sent_term()<cr>
+xnoremap <expr> <silent><leader>ss Sent_term()
 "淼淼的日记
 nmap <leader>mm 2<leader>w<leader>w
 nmap <leader>mj 2<leader>w<leader>i
@@ -183,6 +186,7 @@ nmap <leader>mi 2<leader>wi
 "自动显示函数帮助，基于YCM
 noremap <silent><m-k> :call TagglePreview()<cr>
 nnoremap <silent><leader>ss :call Sent_term()<cr>
+nnoremap <silent><leader><cr> :call Sent_cr()<cr>
 xnoremap <expr> <silent><leader>ss Sent_term()
 "==========================
 "ultisnips设定
@@ -210,9 +214,9 @@ let g:Lf_MruMaxFiles = 1000
 let asyncrun_encs = 'gbk'
 "防止Asyncrun出现乱码
 let g:asyncrun_status = ''
-let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
 "for airline
-command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+"let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+"command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 "for fugitive Gpush Gfetch
 "linux
 "let g:asyncrun_exit = "silent call system('afplay ~/.vim/notify.wav &')"

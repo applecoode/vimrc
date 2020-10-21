@@ -80,6 +80,20 @@ func! Sent_term()
    call term_sendkeys(s:my_n,"\<cr>")
 endf
 
+"发送一个回车
+func! Sent_cr()
+   for i in tabpagebuflist()
+       if match(bufname(i),'!') == 0
+           let s:my_n = i
+           break
+       endif
+   endfor
+   let currentmode = mode()
+   if currentmode == 'n'
+     call term_sendkeys(s:my_n,"\<cr>")
+   endif
+endf
+
 "搜索笔记
 function! Vimgrepsm()
                 exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.md" 
