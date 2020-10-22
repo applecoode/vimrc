@@ -110,8 +110,8 @@ Plug 'SirVer/ultisnips' " 代码片段
 Plug 'honza/vim-snippets' "各种片段
 Plug 'vim-latex/vim-latex' "latex
 Plug 'altercation/vim-colors-solarized'
-Plug 'itchyny/lightline.vim'
-Plug 'w0rp/ale'
+"Plug 'itchyny/lightline.vim'
+Plug 'w0rp/ale' "异步语法检查
 "-------------------------------
 "各种文本对象
 "-------------------------------
@@ -274,6 +274,43 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 "                \}
 "设置补全白名单
 let g:ycm_show_diagnostics_ui = 0
+"disable ycm 语法检查
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_enable_diagnostic_highlighting = 0
+"ycmd setting
+"可以设置syntastic提示符号为别的符号，确定关闭syntastic成功。区分syntastic和Ale的提示。
+let g:ycm_error_symbol = 'K'
+let g:ycm_warning_symbol = 'O'
+"==========================
+"ale设置
+"==========================
+"始终开启标志列
+let g:ale_sig_column_always = 0
+let g:ale_set_highlights = 1
+let g:ale_sign_error = "E"
+let g:ale_sign_warning = "W"
+""vim自带状态栏中整合ale
+let g:ale_statusline_format = ['XXH  %d','W  %d','OK']
+"显示linter名称,出错或警告等相关信息
+let g:ale_echo_msg_error_str = "E"
+let g:ale_echo_msg_warning_str = "W"
+let g:ale_echo_msg_format = '[%linter%] %s [%serverity%]'
+""只有保存时才进行语法检测
+let g:ale_lint_on_text_changed = "never"
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 1
+
+let g:ale_linters = {
+                        \'python':['pylint'],
+                        \'javascript':['eslint','tsserver'],
+                        \}
+"前、后一个错误或警告
+nmap <leader>as <Plug>(ale_previous_wrap)
+nmap <leader>an <Plug>(ale_next_wrap)
+""开启／关闭语法检查
+nmap <Leader>al :ALEToggle<CR>
+"查看详细信息
+nmap <Leader>ad :ALEDetail<CR>
 "==========================
 "ale设置
 "==========================
