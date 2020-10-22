@@ -111,6 +111,7 @@ Plug 'honza/vim-snippets' "各种片段
 Plug 'vim-latex/vim-latex' "latex
 Plug 'altercation/vim-colors-solarized'
 Plug 'itchyny/lightline.vim'
+Plug 'w0rp/ale'
 "-------------------------------
 "各种文本对象
 "-------------------------------
@@ -187,6 +188,8 @@ noremap <silent><m-k> :call TagglePreview()<cr>
 nnoremap <silent><leader>ss :call Sent_term()<cr>
 nnoremap <silent><leader><cr> :call Sent_cr()<cr>
 xnoremap <expr> <silent><leader>ss Sent_term()
+nnoremap <leader>wk :cd d:\zhangbin\code\myproject\work\ <cr>
+nnoremap <silent><leader>al :ALEToggle<cr>
 "==========================
 "ultisnips设定
 "==========================
@@ -271,6 +274,12 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 "                \}
 "设置补全白名单
 let g:ycm_show_diagnostics_ui = 0
+"==========================
+"ale设置
+"==========================
+let g:ale_linters = {
+                        \ 'python':['pylint']
+                        \}
 "==========================
 "vimwiki设置
 "==========================
