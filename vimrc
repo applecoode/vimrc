@@ -188,6 +188,8 @@ noremap <silent><m-k> :call TagglePreview()<cr>
 nnoremap <silent><leader>ss :call Sent_term()<cr>
 nnoremap <silent><leader><cr> :call Sent_cr()<cr>
 xnoremap <expr> <silent><leader>ss Sent_term()
+nnoremap <leader>wk :cd d:\zhangbin\code\myproject\work\ <cr>
+nnoremap <silent><leader>al :ALEToggle<cr>
 "==========================
 "ultisnips设定
 "==========================
@@ -309,6 +311,7 @@ nmap <leader>an <Plug>(ale_next_wrap)
 nmap <Leader>al :ALEToggle<CR>
 "查看详细信息
 nmap <Leader>ad :ALEDetail<CR>
+let g:ale_python_pylint_options = '--rcfile '.fnamemodify($MYVIMRC,":p:h").'\.pylintrc'
 "==========================
 "vimwiki设置
 "==========================

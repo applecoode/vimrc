@@ -47,3 +47,21 @@ snippet tvim "Description" b
 indent is `!v indent(".")`
 line is `!v line(".")`
 endsnippet
+
+snippet ttest_vp "Description" b
+`!p 
+snip.rv=snip.mkline(snip.v.text[::-1])
+`
+endsnippet
+
+snippet "be(gin)?( (\S+))?" "begin{} / end{}" br
+\begin{${1:`!p
+snip.rv = match.group(3) if match.group(2) is not None else "something"`}}
+    ${2:${VISUAL}}
+\end{$1}
+$0
+endsnippet
+
+snippet "(\w+).par" "Parenthesis (postfix)" r
+(`!p snip.rv = match.group(1)`$1)$0
+endsnippet

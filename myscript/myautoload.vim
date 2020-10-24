@@ -42,6 +42,7 @@ endf
 "visual模式下获取选择文本
 function! s:get_visual_selection()
     "let [line_start, column_start] = getpos("'<")[1:2]
+    "visual模式下不用<>而是要用v和.
     let [line_start, column_start] = getpos("v")[1:2]
     "let [line_end, column_end] = getpos("'>")[1:2]
     let [line_end, column_end] = getpos(".")[1:2]
