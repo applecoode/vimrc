@@ -211,3 +211,10 @@ function! BrowserOpen(obj)
         call system(cmd)
     endif
 endfunction
+
+"处理ultisnips出错问题
+function! Fix_mkses_path()
+        let g:my_rtp = &rtp
+        source Session.vim
+        let &rtp = g:my_rtp
+endfunction
