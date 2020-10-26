@@ -190,6 +190,7 @@ nnoremap <silent><leader><cr> :call Sent_cr()<cr>
 xnoremap <expr> <silent><leader>ss Sent_term()
 nnoremap <leader>wk :cd d:\zhangbin\code\myproject\work\ <cr>
 nnoremap <silent><leader>al :ALEToggle<cr>
+nnoremap <leader>ls :call Fix_mkses_path() <cr>
 "==========================
 "ultisnips设定
 "==========================
