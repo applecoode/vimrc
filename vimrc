@@ -8,7 +8,6 @@ try
         exec 'source '.fnamemodify($MYVIMRC,":p:h").'/personal_vimrc'
         exec 'source '.fnamemodify($MYVIMRC,":p:h").'/police_vimrc'
 catch
-        :echo 'not persion env'
 endtry
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/myautoload.vim'
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/BufOnly.vim'
@@ -395,7 +394,6 @@ set background=dark
 try
         colorscheme solarized
 catch
-        echo "scheme solarized not exist"
 endtry
 let g:solarized_termcolors=256
 let g:lightline = {
