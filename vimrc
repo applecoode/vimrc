@@ -7,6 +7,8 @@ try
         exec 'source '.fnamemodify($MYVIMRC,":p:h").'/wikicfg_vimrc'
         exec 'source '.fnamemodify($MYVIMRC,":p:h").'/personal_vimrc'
         exec 'source '.fnamemodify($MYVIMRC,":p:h").'/police_vimrc'
+catch
+        :echo 'not persion env'
 endtry
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/myautoload.vim'
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/BufOnly.vim'
