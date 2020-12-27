@@ -93,7 +93,7 @@ nnoremap <F8> :call RunProgramInPrefix()<cr>
 "==========================
 call plug#begin(fnamemodify($MYVIMRC,":p:h").'/plugged')
 if has('win32') && has('win64')
-Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } "markdown预览
+        Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } "markdown预览
 endif
 Plug 'jiangmiao/auto-pairs' "自动括号插件
 Plug 'Valloric/YouCompleteMe' "自动补全插件
@@ -104,7 +104,11 @@ Plug 'vim-airline/vim-airline-themes' "美化主题
 Plug 'mattn/emmet-vim' " html补全插件 c-y,
 Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
 Plug 'tpope/vim-fugitive' " git命令嵌入vim G
-Plug 'Yggdroot/LeaderF',{ 'do': '.\install.bat' } " leaderf
+if has('win32') && has('win64')
+        Plug 'Yggdroot/LeaderF',{ 'do': '.\install.bat' } " leaderf
+elseif
+        Plug 'Yggdroot/LeaderF',{ 'do': '.\install' } " leaderf
+endif
 Plug 'tpope/vim-repeat' " repeat
 Plug 'sbdchd/neoformat' "format
 Plug 'easymotion/vim-easymotion' "easymotion
