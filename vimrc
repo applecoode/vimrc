@@ -106,7 +106,7 @@ Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
 Plug 'tpope/vim-fugitive' " git命令嵌入vim G
 if has('win32') && has('win64')
         Plug 'Yggdroot/LeaderF',{ 'do': '.\install.bat' } " leaderf
-elseif
+else
         Plug 'Yggdroot/LeaderF',{ 'do': '.\install' } " leaderf
 endif
 Plug 'tpope/vim-repeat' " repeat
@@ -392,7 +392,11 @@ if !has('gui_running')
     set t_Co=256
 endif
 set background=dark
-colorscheme solarized
+try
+        colorscheme solarized
+catch
+        echo "scheme solarized not exist"
+endtry
 let g:solarized_termcolors=256
 let g:lightline = {
     \ 'colorscheme': 'solarized',
