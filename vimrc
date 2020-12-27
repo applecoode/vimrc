@@ -180,9 +180,9 @@ inoremap <M-d> <esc>:call Tools_PreviousCursor(1)<cr>a
 nnoremap <silent><leader>ss :call Sent_term()<cr>
 xnoremap <expr> <silent><leader>ss Sent_term()
 "淼淼的日记
-nmap <leader>mm 2<leader>w<leader>w
-nmap <leader>mj 2<leader>w<leader>i
-nmap <leader>mi 2<leader>wi
+nmap <leader>mm 3<leader>w<leader>w
+nmap <leader>mj 3<leader>w<leader>i
+nmap <leader>mi 3<leader>wi
 "自动显示函数帮助，基于YCM
 noremap <silent><m-k> :call TagglePreview()<cr>
 nnoremap <silent><leader>ss :call Sent_term()<cr>
@@ -318,11 +318,15 @@ let g:ale_python_pylint_options = '--rcfile '.fnamemodify($MYVIMRC,":p:h").'\.py
 "==========================
 "let g:vimwiki_list = [{'path': '~/my_diary/', 'path_html': '~/my_diary_html/'},
 "                     \{'path': '~/my_wiki/', 'path_html': '~/my_wiki_html/'}]
-let g:vimwiki_list = [{'path': '~/vimwiki/',
+let g:vimwiki_list = [{'path': '~/vimfiles/wiki/vimwiki/',
                           \ 'path_html':'~/public_html',
                           \ 'syntax': 'markdown',
                           \ 'ext': '.md'},
-                          \ {'path':'~/mmwiki/',
+                          \ {'path':'~/vimfiles/wiki/homewiki/',
+                          \ 'path_html':'~/public_html',
+                          \ 'syntax':'markdown',
+                          \ 'ext':'.md'},
+                          \ {'path':'~/vimfiles/wiki/mmwiki/',
                           \ 'path_html':'~/public_html',
                           \ 'syntax':'markdown',
                           \ 'ext':'.md'}]

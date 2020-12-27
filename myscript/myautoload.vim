@@ -97,13 +97,13 @@ endf
 
 "搜索笔记
 function! Vimgrepsm()
-                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.md" 
+                exec "vimgrep ".input("search what?")."/j ~/vimfiles/wiki/**/*.md" 
 endfunction
 function! Vimgrepsw()
-                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/*.wiki" 
+                exec "vimgrep ".input("search what?")."/j ~/vimfiles/wiki/**/*.wiki" 
 endfunction
 function! Vimgrepsa()
-                exec "vimgrep ".input("search what?")."/j ~/vimwiki/diary/**/*" 
+                exec "vimgrep ".input("search what?")."/j ~/vimfiles/wiki/**/*" 
 endfunction
 
 "自动打开文件所在目录
