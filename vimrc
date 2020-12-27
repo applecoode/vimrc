@@ -92,7 +92,9 @@ nnoremap <F8> :call RunProgramInPrefix()<cr>
 "插件定义
 "==========================
 call plug#begin(fnamemodify($MYVIMRC,":p:h").'/plugged')
+if has('win32') && has('win64')
 Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } "markdown预览
+endif
 Plug 'jiangmiao/auto-pairs' "自动括号插件
 Plug 'Valloric/YouCompleteMe' "自动补全插件
 Plug 'vimwiki/vimwiki' "笔记插件

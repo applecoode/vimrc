@@ -28,7 +28,6 @@ function! Tools_PreviousCursor(mode)
         endif
         noautocmd silent! wincmd p
 endfunc
-
 "切换preview窗口
 fun! TagglePreview()
     try 
@@ -38,7 +37,6 @@ fun! TagglePreview()
       :YcmCompleter GetDoc 
     endtry
 endf
-
 "visual模式下获取选择文本
 function! s:get_visual_selection()
     "let [line_start, column_start] = getpos("'<")[1:2]
@@ -54,7 +52,6 @@ function! s:get_visual_selection()
     "let lines[0] = lines[0][column_start - 1:]
     return join(lines, "\n")
 endfunction
-
 "自动发送到term窗口
 func! Sent_term()
    for i in tabpagebuflist()
@@ -80,7 +77,6 @@ func! Sent_term()
    call term_wait(s:my_n)
    call term_sendkeys(s:my_n,"\<cr>")
 endf
-
 "发送一个回车
 func! Sent_cr()
    for i in tabpagebuflist()
@@ -94,7 +90,6 @@ func! Sent_cr()
      call term_sendkeys(s:my_n,"\<cr>")
    endif
 endf
-
 "搜索笔记
 function! Vimgrepsm()
                 exec "vimgrep ".input("search what?")."/j ~/vimfiles/wiki/**/*.md" 
@@ -105,13 +100,11 @@ endfunction
 function! Vimgrepsa()
                 exec "vimgrep ".input("search what?")."/j ~/vimfiles/wiki/**/*" 
 endfunction
-
 "自动打开文件所在目录
 function! FileExplore()
     let l:path = expand(getcwd())
     call BrowserOpen(l:path)
 endfunction
-
 "异步执行md,python,go,html
 func! RunProgramInPrefix()
           exec "w"
@@ -140,7 +133,6 @@ func! RunProgramInPrefix()
                   exec "wincmd p"
           endif
 endfunc
-
 "命令框执行python go
 func! RunProgram()
         exec "w"
@@ -150,7 +142,6 @@ func! RunProgram()
                 exec "!go run %"
         endif
 endfunc
-
 "切换quickfix窗口
 func! TaggleQuickWin()
         if getqflist({'winid':1}).winid
@@ -159,7 +150,6 @@ func! TaggleQuickWin()
                 exec "copen"
         endif
 endfunction
-
 "切换补全时是否出现preview窗口
 func! Switchpreview()
   if g:ycm_add_preview_to_completeopt==1
@@ -172,7 +162,6 @@ func! Switchpreview()
     echo 'add preview to 1'
   endif
 endfunction
-
 "新建ignore文件自动填充内容
 function! InitGitignore()
     if &filetype ==# 'gitignore'
@@ -189,7 +178,6 @@ function! InitGitignore()
         call append(0, s:ignore)
     endif
 endfunction
-
 "自动打开文件网址
 function! BrowserOpen(obj)
     " windows(mingw)
@@ -202,7 +190,6 @@ function! BrowserOpen(obj)
     else
         echoerr "No browser found, please contact the developer."
     endif
-
     if exists('*jobstart')
         call jobstart(cmd)
     elseif exists('*job_start')
@@ -211,7 +198,6 @@ function! BrowserOpen(obj)
         call system(cmd)
     endif
 endfunction
-
 "处理ultisnips出错问题
 function! Fix_mkses_path()
         let g:my_rtp = &rtp
