@@ -3,19 +3,17 @@ set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,chinese,cp936,gbk,gb2312,gb18030
 source $VIMRUNTIME/vimrc_example.vim
+try
+        exec 'source '.fnamemodify($MYVIMRC,":p:h").'/wikicfg_vimrc'
+        exec 'source '.fnamemodify($MYVIMRC,":p:h").'/personal_vimrc'
+        exec 'source '.fnamemodify($MYVIMRC,":p:h").'/police_vimrc'
+endtry
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/myautoload.vim'
 exec 'source '.fnamemodify($MYVIMRC,":p:h").'/myscript/BufOnly.vim'
 let mapleader = " "
 let g:mapleader = " "
 if has('win32') && has('win64')
-        behave mswin
-        language messages zh_CN.utf-8
-        noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
-        noremap <f12> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleTransparency', "247,180")<cr>
-        "全屏和透明窗体,需要gvim_fullscreen.dll支持,放在vim安装目录
-        let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
-        "windows下指定第三方补全目录
-        nnoremap <leader>td :AsyncRun pandoc -t markdown -w docx --reference-docx=\%userprofile\%/wordtmp.docx -o \%userprofile\%/Desktop/%:t:r.docx %<cr>
+    exec 'source '.fnamemodify($MYVIMRC,":p:h").'/win_vimrc'
 endif
 set guioptions=
 "去除界面上所有东西
@@ -167,8 +165,6 @@ nnoremap <leader>fc :LeaderfHistoryCmd<cr>
 nnoremap <leader>fs :LeaderfHistorySearch<cr>
 nnoremap <leader>ft :LeaderfBufTagAll<cr>
 nnoremap <leader>fn :exec "LeaderfFile ".fnamemodify($MYVIMRC,":p:h")."\\plugged\\vim-snippets\\"<cr>
-nnoremap <leader>ne :e ~\vimwiki\diary\nextthing.md<cr>
-nnoremap <leader>dl :e ~\vimwiki\diary\fitness.mkd<cr>
 "设置拼写检查
 nnoremap <leader>sc :set spell!<cr>
 "滚屏
@@ -179,16 +175,11 @@ inoremap <M-d> <esc>:call Tools_PreviousCursor(1)<cr>a
 "term发信息
 nnoremap <silent><leader>ss :call Sent_term()<cr>
 xnoremap <expr> <silent><leader>ss Sent_term()
-"淼淼的日记
-nmap <leader>mm 3<leader>w<leader>w
-nmap <leader>mj 3<leader>w<leader>i
-nmap <leader>mi 3<leader>wi
 "自动显示函数帮助，基于YCM
 noremap <silent><m-k> :call TagglePreview()<cr>
 nnoremap <silent><leader>ss :call Sent_term()<cr>
 nnoremap <silent><leader><cr> :call Sent_cr()<cr>
 xnoremap <expr> <silent><leader>ss Sent_term()
-nnoremap <leader>wk :cd d:\zhangbin\code\myproject\work\ <cr>
 nnoremap <silent><leader>al :ALEToggle<cr>
 nnoremap <leader>ls :call Fix_mkses_path() <cr>
 "==========================
@@ -314,28 +305,6 @@ nmap <Leader>al :ALEToggle<CR>
 nmap <Leader>ad :ALEDetail<CR>
 let g:ale_python_pylint_options = '--rcfile '.fnamemodify($MYVIMRC,":p:h").'\.pylintrc'
 "==========================
-"vimwiki设置
-"==========================
-"let g:vimwiki_list = [{'path': '~/my_diary/', 'path_html': '~/my_diary_html/'},
-"                     \{'path': '~/my_wiki/', 'path_html': '~/my_wiki_html/'}]
-let g:vimwiki_list = [{'path': '~/vimfiles/wiki/vimwiki/',
-                          \ 'path_html':'~/public_html',
-                          \ 'syntax': 'markdown',
-                          \ 'ext': '.md'},
-                          \ {'path':'~/vimfiles/wiki/homewiki/',
-                          \ 'path_html':'~/public_html',
-                          \ 'syntax':'markdown',
-                          \ 'ext':'.md'},
-                          \ {'path':'~/vimfiles/wiki/mmwiki/',
-                          \ 'path_html':'~/public_html',
-                          \ 'syntax':'markdown',
-                          \ 'ext':'.md'}]
-"使用markdown方式记录wiki
-map <Leader>tt <Plug>VimwikiToggleListItem
-"Todo快捷键
-let g:vimwiki_table_mappings = 0
-
-"==========================
 "自己定义的配置
 "==========================
 nnoremap <silent><M-c> :call TaggleQuickWin()<cr>
@@ -359,15 +328,6 @@ nnoremap <leader>cc "*yiw
 "切换中文输入法补丁（目前不能用）
 
 "==========================
-"自己写的插件(仅限公安网)
-"==========================
-nnoremap <silent><M-9> :py3file ~\vimfiles\myscript\spider.py<cr>
-"获取省厅治安总队和市局主页的通知并输出到当前buffer
-nnoremap <silent><M-8> :py3file ~\vimfiles\myscript\sql_anytime.py<cr>
-"自动查询sql语句
-
-
-"==========================
 "all ab and iab
 "==========================
 iab xdate <c-r>=strftime("%Y年%m月%d日%H:%M:%S")<cr>
@@ -387,9 +347,7 @@ ab dtp d:\temp
 "==========================
 "myscript.vim
 "==========================
-
 nnoremap <F7> :call test#testecho() <cr>
-
 
 "==========================
 "other function

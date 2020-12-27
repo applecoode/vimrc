@@ -1,0 +1,8 @@
+behave mswin
+language messages zh_CN.utf-8
+noremap <f11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
+noremap <f12> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleTransparency', "247,180")<cr>
+"全屏和透明窗体,需要gvim_fullscreen.dll支持,放在vim安装目录
+let g:ycm_server_python_interpreter="C:\\ProgramData\\Anaconda3\\Python.exe"
+"windows下指定第三方补全目录
+nnoremap <leader>td :AsyncRun pandoc -t markdown -w docx --reference-docx=\%userprofile\%/wordtmp.docx -o \%userprofile\%/Desktop/%:t:r.docx %<cr>
