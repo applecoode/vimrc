@@ -95,7 +95,6 @@ if has('win32') && has('win64')
         Plug 'iamcco/markdown-preview.nvim',{ 'do': 'cd app & yarn install'  } "markdown预览
 endif
 Plug 'jiangmiao/auto-pairs' "自动括号插件
-Plug 'Valloric/YouCompleteMe' "自动补全插件
 Plug 'vimwiki/vimwiki' "笔记插件
 Plug 'skywind3000/asyncrun.vim' "异步插件
 Plug 'vim-airline/vim-airline' "底部美化
@@ -182,8 +181,6 @@ inoremap <M-d> <esc>:call Tools_PreviousCursor(1)<cr>a
 "term发信息
 nnoremap <silent><leader>ss :call Sent_term()<cr>
 xnoremap <expr> <silent><leader>ss Sent_term()
-"自动显示函数帮助，基于YCM
-noremap <silent><m-k> :call TagglePreview()<cr>
 nnoremap <silent><leader>ss :call Sent_term()<cr>
 nnoremap <silent><leader><cr> :call Sent_cr()<cr>
 xnoremap <expr> <silent><leader>ss Sent_term()
@@ -245,41 +242,6 @@ let g:mkdp_browser = 'chrome'
 "let g:mkdp_browserfunc = 'g:Open_browser'
 "let g:mkdp_markdown_css='d:\tmp\bootstrap.css'
 
-"==========================
-"ycm插件设定;
-"==========================
-let g:ycm_key_list_previous_completion = ['<Up>']
-let g:ycm_key_list_select_completion = ['<Down>']
-"防止和ultisnip按键冲突
-let g:ycm_global_ycm_extra_conf=fnamemodify($MYVIMRC,":p:h")."/plugged/YouCompleteMe/.ycm_extra_conf.py"
-"let g:ycm_key_invoke_completion='<c-z>' 
-"设置基于语义补全的快捷键
-let g:ycm_semantic_triggers={
-                      \ 'python,javascript,cs,c,go':['re!\w{2}'],
-                      \ }
-"设置激活自动补全的符号，这里设置输入前两个字符就自动弹出
-highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
-highlight PMenuSel ctermfg=242 ctermbg=8 guifg=darkgrey guibg=black
-"设置补全弹出框的颜色
-nnoremap <leader>jd :YcmCompleter GoTo<CR>
-"ycm的跳转到定义
-"set completeopt=menu,menuone
-"let g:ycm_add_preview_to_completeopt=0
-"取消补全中显示函数详细信息的补全设置
-"let g:ycm_filetype_whitelist = {
-"                \"python":1,
-"                \"javascript":1,
-"                \"html":1,
-"                \}
-"设置补全白名单
-let g:ycm_show_diagnostics_ui = 0
-"disable ycm 语法检查
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_enable_diagnostic_highlighting = 0
-"ycmd setting
-"可以设置syntastic提示符号为别的符号，确定关闭syntastic成功。区分syntastic和Ale的提示。
-let g:ycm_error_symbol = 'K'
-let g:ycm_warning_symbol = 'O'
 "==========================
 "ale设置
 "==========================
