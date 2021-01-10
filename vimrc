@@ -409,8 +409,17 @@ let g:lightline = {
 set noshowmode
 
 "tmux的esc延迟设置
+set ttimeout
 if $TMUX !=''
         set ttimeoutlen=20
 elseif &ttimeoutlen > 60 || &ttimeoutlen <= 0
         set ttimeoutlen=60
+endif
+
+if !has('win32') || !has('win64')
+        for i in range(97,122)
+          let c = nr2char(i)
+          exec "map \e".c." <M-".c.">"
+          exec "map! \e".c." <M-".c.">"
+        endfor
 endif
