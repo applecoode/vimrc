@@ -417,9 +417,12 @@ elseif &ttimeoutlen > 60 || &ttimeoutlen <= 0
 endif
 
 if !has('win32') || !has('win64')
-        for i in range(97,122)
-          let c = nr2char(i)
-          exec "map \e".c." <M-".c.">"
-          exec "map! \e".c." <M-".c.">"
-        endfor
+    exec "map \ec <M-c>"
+    exec "map \ek <M-k>"
+    exec "map \eu <M-u>"
+    exec "map \ed <M-e>"
+    exec "map \ed <M-e>"
+    exec "map \eo <M-o>"
+    exec "map \ey <M-y>"
+    exec "map \es <M-s>"
 endif
