@@ -103,11 +103,7 @@ Plug 'vim-airline/vim-airline-themes' "美化主题
 Plug 'mattn/emmet-vim' " html补全插件 c-y,
 Plug 'tpope/vim-surround' " 两边补符号插件 ds cs ys
 Plug 'tpope/vim-fugitive' " git命令嵌入vim G
-if has('win32') && has('win64')
-        Plug 'Yggdroot/LeaderF',{ 'do': '.\install.bat' } " leaderf
-else
-        Plug 'Yggdroot/LeaderF',{ 'do': '.\install' } " leaderf
-endif
+Plug 'Yggdroot/LeaderF',{ 'do': ':LeaderfInstallCExtension' }
 Plug 'tpope/vim-repeat' " repeat
 Plug 'sbdchd/neoformat' "format
 Plug 'easymotion/vim-easymotion' "easymotion
