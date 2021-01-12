@@ -112,7 +112,6 @@ Plug 'honza/vim-snippets' "各种片段
 Plug 'vim-latex/vim-latex' "latex
 Plug 'altercation/vim-colors-solarized'
 "Plug 'itchyny/lightline.vim'
-Plug 'w0rp/ale' "异步语法检查
 "-------------------------------
 "各种文本对象
 "-------------------------------
@@ -240,136 +239,21 @@ let g:mkdp_browser = 'chrome'
 "let g:mkdp_markdown_css='d:\tmp\bootstrap.css'
 
 "==========================
-"ale设置
-"==========================
-"始终开启标志列
-let g:ale_sig_column_always = 0
-let g:ale_set_highlights = 1
-let g:ale_sign_error = "E"
-let g:ale_sign_warning = "W"
-""vim自带状态栏中整合ale
-let g:ale_statusline_format = ['XXH  %d','W  %d','OK']
-"显示linter名称,出错或警告等相关信息
-let g:ale_echo_msg_error_str = "E"
-let g:ale_echo_msg_warning_str = "W"
-let g:ale_echo_msg_format = '[%linter%] %s [%serverity%]'
-""只有保存时才进行语法检测
-let g:ale_lint_on_text_changed = "never"
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 1
-
-let g:ale_linters = {
-                        \'python':['pylint'],
-                        \'javascript':['eslint','tsserver'],
-                        \}
-"前、后一个错误或警告
-nmap <leader>as <Plug>(ale_previous_wrap)
-nmap <leader>an <Plug>(ale_next_wrap)
-""开启／关闭语法检查
-nmap <Leader>al :ALEToggle<CR>
-"查看详细信息
-nmap <Leader>ad :ALEDetail<CR>
-let g:ale_python_pylint_options = '--rcfile '.fnamemodify($MYVIMRC,":p:h").'\.pylintrc'
-"==========================
-"自己定义的配置
-"==========================
-nnoremap <silent><M-c> :call TaggleQuickWin()<cr>
-inoremap <silent><M-c> <esc>:call TaggleQuickWin()<cr>
-"绑定关闭quickfix窗口快捷键
-nnoremap <M-o> :pclose<cr>
-inoremap <M-o> <esc>:pclose<cr>a
-"绑定关闭preview窗口快捷键
-nnoremap <M-y> :let g:ycm_auto_trigger=0<cr>
-nnoremap <M-Y>  :let g:ycm_auto_trigger=1<cr>
-"切换是否开启ycm补全
-set completeopt=menu,menuone
-let g:ycm_add_preview_to_completeopt=0
-set completeopt=menu,menuone
-"设置默认不开启proview窗口
-nnoremap <M-s> :call Switchpreview()<cr>
-"切换补ycm全时是否出现preview窗口
-nnoremap <leader>cc "*yiw
-"为了使用翻译软件少用几个按键和goldendict的ctrl-cc适应
-" let g:XkbSwitchLib = '~\vimfiles\dll\libxkbswitch64.dll'
-"切换中文输入法补丁（目前不能用）
-
-"==========================
-"all ab and iab
-"==========================
-iab xdate <c-r>=strftime("%Y年%m月%d日%H:%M:%S")<cr>
-"插入时间 iab为插入模式下缩写
-ab vimrc exec 'e '.fnamemodify($MYVIMRC,":p:h").'/vimrc'
-"直接打开vimrc文件
-ab ner NERDTree
-"让打开目录快一些
-ab ti tab term ipython
-ab vi vert term ipython
-" 快速打开ipython
-ab ap AsyncRun python
-" 异步执行python
-ab xbase d:\zhangbin
-ab xstd d:\zhangbin\code\mypractice
-ab dtp d:\temp
-"==========================
-"myscript.vim
-"==========================
-nnoremap <F7> :call test#testecho() <cr>
-
-"==========================
-"other function
-"==========================
-"git ignore配置
-command! InitGitignore call InitGitignore()
-au BufRead,BufNewFile *.gitignore		set filetype=gitignore
-autocmd BufNewFile .gitignore exec "call InitGitignore()"
-
-" BrowserOpen: 打开文件或网址
-command! -nargs=+ BrowserOpen call BrowserOpen(<q-args>)
-
-"搜索vimwiki中的关键字
-noremap <leader>sm  <Esc>:call Vimgrepsm()<CR>
-noremap <leader>sw  <Esc>:call Vimgrepsw()<CR>
-noremap <leader>sa  <Esc>:call Vimgrepsa()<CR>
-
-"自动打开文件所在目录
-noremap <silent> <F2> <Esc>:call FileExplore()<CR>
-command! FileExplore call FileExplore()
-
-"===========================
-"各种文件类型设置
-"===========================
-"vue文件类型关联
-autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css sw=2
-autocmd BufRead,BufNewFile *.html setlocal  sw=2
-autocmd BufRead,BufNewFile *.go setlocal  sw=4
-"===========================
-"主题和各种界面设置
-"===========================
-set laststatus=2
-if !has('gui_running')
-    set t_Co=256
-endif
-set background=dark
-try
-        colorscheme solarized
-catch
-endtry
-let g:solarized_termcolors=256
-let g:lightline = {
-    \ 'colorscheme': 'solarized',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste'  ],
-    \             [ 'gitbranch', 'readonly', 'filename', 'modified'  ]  ]
-    \ },
-    \ 'component_function': {
-    \   'gitbranch': 'fugitive#statusline'
-    \ },
-    \ }
-set noshowmode
-
 "tmux的esc延迟设置
+set ttimeout
 if $TMUX !=''
         set ttimeoutlen=20
 elseif &ttimeoutlen > 60 || &ttimeoutlen <= 0
         set ttimeoutlen=60
+endif
+
+if !has('win32') || !has('win64')
+    exec "map \ec <M-c>"
+    exec "map \ek <M-k>"
+    exec "map \eu <M-u>"
+    exec "map \ed <M-e>"
+    exec "map \ed <M-e>"
+    exec "map \eo <M-o>"
+    exec "map \ey <M-y>"
+    exec "map \es <M-s>"
 endif
