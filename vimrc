@@ -330,8 +330,10 @@ let g:lightline = {
     \ }
 set noshowmode
 set background=dark
-colorscheme solarized
-
+try
+        colorscheme solarized
+catch        
+endtry        
 "tmux的esc延迟设置
 set ttimeout
 if $TMUX !=''
