@@ -279,6 +279,7 @@ let g:ycm_warning_symbol = 'O'
 "==========================
 "ale设置
 "==========================
+let g:ale_enabled = 0
 "始终开启标志列
 let g:ale_sig_column_always = 0
 let g:ale_set_highlights = 1
